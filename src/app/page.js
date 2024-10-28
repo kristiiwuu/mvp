@@ -1,18 +1,22 @@
 "use client";
 import { useState } from "react";
+import { useRouter } from 'next/navigation';
+import './globals.css';
 
 export default function Home() {
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
+  const router = useRouter();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(question, answer);
-  }
+    // Navigate to the promptmaker page with the input text as a query parameter
+    router.push(`/chat?question=${question}&answer=${answer}`);
+  };
 
   return (
     <div className="bg-black flex flex-col items-center justify-center h-screen">
-        <form className="flex flex-col gap-[10px]">
+        <form className="flex flex-col gap-[10px]" onSubmit={handleSubmit}>
           <h1>Question</h1>
           <textarea 
           className="w-96 h-24 p-2 rounded text-black"
