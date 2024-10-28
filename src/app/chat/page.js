@@ -22,7 +22,7 @@ export default function Chat() {
                     <div key={message.id}>
                         <Image src={message.role === "user" ? "/user.png" : "/bot.png"} alt="user" width={32} height={32} />
                         {message.role}
-                        <div className="w-[100%] m;-[16px]">
+                        <div className="w-[100%] m-[16px]">
                             <p >{message.content}</p>
                         </div>
                     </div>
