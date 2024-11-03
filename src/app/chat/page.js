@@ -21,7 +21,7 @@ export default function Chat() {
             <div>
                 {messages.map((message) => (
                     <div key={message.id}>
-                        <Image src={message.role === "user" ? "/user.png" : "/bot.png"} alt="user" width={32} height={32} />
+                        {/* <Image src={message.role === "user" ? "/user.png" : "/bot.png"} alt="user" width={32} height={32} /> */}
                         {message.role}
                         <div className="w-[100%] m-[16px]">
                             <p >{message.content}</p>
@@ -33,11 +33,11 @@ export default function Chat() {
     }
 
     return (
-        <div>
+        <div className="bg-black flex items-center justify-center h-screen w-[100%]">
             {renderReponse()}
-            <form onSubmit={handleSubmit}>
-                <input type="text" value={input} onChange={handleInputChange}></input>
-                <button type="submit">Submit</button>
+            <form className="w-[100%] flex justify-center gap-[10px]" onSubmit={handleSubmit}>
+                <input className="text-black w-[70%]" type="text" value={input} onChange={handleInputChange}></input>
+                <button className="w-[25%] bg-white text-black p-2 rounded" type="submit">Submit</button>
             </form>
         </div>
     );
