@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useRouter } from 'next/navigation';
 import './globals.css';
 import NavBar from "./components/NavBar";
+import Display from "./components/Display";
 
 export default function Home() {
   const [question, setQuestion] = useState("");
@@ -16,8 +17,9 @@ export default function Home() {
   };
 
   return (
-    <div className="h-auto bg-[#F8F7F4] px-12 pt-20 pb-12">
+    <div className="h-auto bg-[#F8F7F4] px-12 pt-20 pb-12 flex gap-9">
       <NavBar />
+      <Display />
     </div>
   );
 }
