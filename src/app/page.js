@@ -17,7 +17,7 @@ export default function Home() {
   };
 
   return (
-    <div className="h-auto bg-[#F8F7F4] px-12 pt-20 pb-12 flex gap-9">
+    <div className="font-orienta h-auto bg-[#F8F7F4] px-12 pt-20 pb-12 flex gap-9">
       <NavBar />
       <Display />
     </div>
