@@ -23,7 +23,6 @@ export default function Home() {
     </div>
   );
 }
-
     // <div className="bg-black flex flex-col items-center justify-center h-screen">
     //     <form className="flex flex-col gap-[10px]" onSubmit={handleSubmit}>
     //       <h1>Question</h1>
@@ -48,3 +47,4 @@ export default function Home() {
     //     </button>
     //     </form>
     // </div>
+

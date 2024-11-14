@@ -44,7 +44,9 @@ export default function Chat() {
 
         if (response.ok) {
         const result = await response.json()
-        setChat(prev => [...prev, { role: 'assistant', content: result.message }])
+        //const result = await response
+        console.log("HIIIII response" , result)
+        setChat(prev => [...prev, result.message])
         }
         setLoading(false)
     }
