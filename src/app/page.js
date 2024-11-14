@@ -2,8 +2,8 @@
 import { useState } from "react";
 import { useRouter } from 'next/navigation';
 import './globals.css';
-import NavBar from "./components/NavBar";
-import Display from "./components/Display";
+import NavBar from "./components/Student-Side/NavBar";
+import Display from "./components/Student-Side/Display";
 
 export default function Home() {
   const [question, setQuestion] = useState("");
