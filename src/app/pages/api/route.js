@@ -1,8 +1,10 @@
+'use server';
+
 import OpenAI from 'openai';
-import {OpenAIStream, StreamingTextResponse} from 'ai';
+import { StreamingTextResponse, OpenAIStream } from 'ai/streams';
 
 const openai = new OpenAI({
-    apiKey: process.env.API_KEY,
+    apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
 });
 
 export const runtime = 'edge';
@@ -12,8 +14,7 @@ export async function POST(req, res) {
 
     const response = await openai.chat.completions.create(
     {
-        model: 'gpt-4o-mini',
-        stream: true,
+        model: 'gpt-3.5-turbo',
         messages: [
             {
                 role: 'system',
