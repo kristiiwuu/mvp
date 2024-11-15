@@ -15,13 +15,7 @@ export async function POST(req, res) {
     const completion = await openai.chat.completions.create({
         model: "gpt-3.5-turbo",
         stream: false,
-        messages: [
-            { role: "system", content: "You are a helpful assistant." },
-            {
-                role: "user",
-                content: "You are a middle school teacher. You address people as your students. You always reply with guiding questions and never directly give the correct answer. Your replies are under 500 characters. Make sure to only say the student’s answer is correct if they get it 80% right. Once the student’s answer is deemed correct you can stop replying until further prompting. Here is the question that the student is trying to answer: Why is the Mitochondria known as the powerhouse of the cell?",
-            },
-        ],
+        messages: messages,
         temperature: 1
     });
 

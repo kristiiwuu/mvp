@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function Chat() {
 
@@ -6,6 +6,10 @@ export default function Chat() {
     const [question, setQuestion] = useState('');
     const [chat, setChat] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [systemPrompt, setSystemPrompt] = useState({
+      role: "system",
+      content: "You are a middle school teacher. You address your user as your student. You always reply with guiding questions that help them reach the answer by meeting students where they are, and never directly give the correct answer. You can give hints when the user responds with \"I don't know\" or a similar response. Your replies are under 500 characters. Make sure to only say the student’s answer is correct if they get it 80% right. Once the student’s answer is deemed correct you can stop replying until further prompting. Here is the question that the student is trying to answer: Why is the Mitochondria known as the powerhouse of the cell?",
+    });
 
     const handleFileUpload = async (e) => {
         e.preventDefault();
@@ -28,6 +32,13 @@ export default function Chat() {
         }
       }
 
+      useEffect(() => {
+        console.log("hi");
+      }, [])
+
+      useEffect(() => {
+        console.log("CHAT:", chat);
+      }, [chat])
     
     const handleSendMessage = async () => {
         if (!question.trim()) return
@@ -37,9 +48,9 @@ export default function Chat() {
         setLoading(true)
 
         const response = await fetch('/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: [...chat, { role: 'user', content: question }] }),
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ messages: [systemPrompt, ...chat, { role: 'user', content: question }] }),
         })
 
         if (response.ok) {
