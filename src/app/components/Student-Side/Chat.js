@@ -2,32 +2,9 @@ import { useState } from 'react';
 
 export default function Chat() {
 
-    const [file, setFile] = useState(null);
-    const [question, setQuestion] = useState('');
+    const [question, setQuestion] = useState(''); // change name to userInput 
     const [chat, setChat] = useState([]);
     const [loading, setLoading] = useState(false);
-
-    const handleFileUpload = async (e) => {
-        e.preventDefault();
-        if (e.target.files && e.target.files[0]) {
-          setFile(e.target.files[0])
-          const formData = new FormData()
-          formData.append('pdf', e.target.files[0])
-    
-          const response = await fetch('/api/parse-pdf', {
-            method: 'POST',
-            body: formData,
-          })
-    
-          if (response.ok) {
-            const result = await response.json()
-            setChat([{ role: 'system', content: `I've analyzed your homework. What questions do you have?` }])
-          } else {
-            alert('File upload failed');
-          }
-        }
-      }
-
     
     const handleSendMessage = async () => {
         if (!question.trim()) return
@@ -53,11 +30,6 @@ export default function Chat() {
 
     return(
         <div className="h-screen text-black border-2 rounded-[12px] border-[#D7D7D7] bg-[#FFF] px-9 py-6 flex flex-col justify-between w-auto text-lg">
-            <form>
-                <input type="file" accept=".pdf" id="pdf-upload"></input> 
-                <button className="bg-[#CDCDCD] hover:bg-[#1F8FBF] rounded-[12px] px-5 py-3 text-white" type="submit" onClick={handleFileUpload}>Upload PDF</button>
-                {file && <p className="mt-2">File uploaded: {file.name}</p>}
-            </form>
             <div className="flex flex-col gap-6 overflow-y-auto" style={{ maxHeight: '400px' }}> 
                 {chat.map((message, index) => (
                 <div key={index} className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>
