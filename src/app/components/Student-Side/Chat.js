@@ -2,10 +2,10 @@ import { useState, useEffect } from 'react';
 
 export default function Chat() {
 
-    const [file, setFile] = useState(null);
-    const [question, setQuestion] = useState('');
+    const [question, setQuestion] = useState(''); // change name to userInput 
     const [chat, setChat] = useState([]);
     const [loading, setLoading] = useState(false);
+
     const [systemPrompt, setSystemPrompt] = useState({
       role: "system",
       content: "You are a middle school teacher. You address your user as your student. You always reply with guiding questions that help them reach the answer by meeting students where they are, and never directly give the correct answer. You can give hints when the user responds with \"I don't know\" or a similar response. Your replies are under 500 characters. Make sure to only say the student’s answer is correct if they get it 80% right. Once the student’s answer is deemed correct you can stop replying until further prompting. Here is the question that the student is trying to answer: Why is the Mitochondria known as the powerhouse of the cell?",
@@ -64,11 +64,6 @@ export default function Chat() {
 
     return(
         <div className="h-screen text-black border-2 rounded-[12px] border-[#D7D7D7] bg-[#FFF] px-9 py-6 flex flex-col justify-between w-auto text-lg">
-            <form>
-                <input type="file" accept=".pdf" id="pdf-upload"></input> 
-                <button className="bg-[#CDCDCD] hover:bg-[#1F8FBF] rounded-[12px] px-5 py-3 text-white" type="submit" onClick={handleFileUpload}>Upload PDF</button>
-                {file && <p className="mt-2">File uploaded: {file.name}</p>}
-            </form>
             <div className="flex flex-col gap-6 overflow-y-auto" style={{ maxHeight: '400px' }}> 
                 {chat.map((message, index) => (
                 <div key={index} className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>

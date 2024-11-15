@@ -21,14 +21,18 @@
       {
         "name": "next"
       }
-    ]
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
   },
   "include": [
     "next-env.d.ts",
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx"
-  ],
+, "middleware.js", "src/utils/supabase/middleware.js", "src/utils/supabase/server.js", "src/utils/supabase/client.js", "src/app/login/actions.js", "src/app/login/page.js" , "src/app/auth/confirm/route.js", "src/app/private/page.js", "src/app/error/page.js" ],
   "exclude": [
     "node_modules"
   ]

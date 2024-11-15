@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@supabase/ssr": "^0.5.2",
+    "@supabase/supabase-js": "^2.46.1",
     "@types/pdfjs-dist": "^2.10.378",
     "ai": "^3.4.21",
     "lucide-react": "^0.454.0",
