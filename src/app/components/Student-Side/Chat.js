@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
+import { saveChat } from '../../saveChat/actions';
 
 export default function Chat() {
-
     const [question, setQuestion] = useState(''); // change name to userInput 
     const [chat, setChat] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -11,34 +11,10 @@ export default function Chat() {
       content: "You are a middle school teacher. You address your user as your student. You always reply with guiding questions that help them reach the answer by meeting students where they are, and never directly give the correct answer. You can give hints when the user responds with \"I don't know\" or a similar response. Your replies are under 500 characters. Make sure to only say the student’s answer is correct if they get it 80% right. Once the student’s answer is deemed correct you can stop replying until further prompting. Here is the question that the student is trying to answer: Why is the Mitochondria known as the powerhouse of the cell?",
     });
 
-    const handleFileUpload = async (e) => {
-        e.preventDefault();
-        if (e.target.files && e.target.files[0]) {
-          setFile(e.target.files[0])
-          const formData = new FormData()
-          formData.append('pdf', e.target.files[0])
-    
-          const response = await fetch('/api/parse-pdf', {
-            method: 'POST',
-            body: formData,
-          })
-    
-          if (response.ok) {
-            const result = await response.json()
-            setChat([{ role: 'system', content: `I've analyzed your homework. What questions do you have?` }])
-          } else {
-            alert('File upload failed');
-          }
-        }
-      }
-
-      useEffect(() => {
-        console.log("hi");
-      }, [])
-
-      useEffect(() => {
-        console.log("CHAT:", chat);
-      }, [chat])
+   
+    useEffect(() => {
+      console.log("CHAT:", JSON.stringify(chat));
+    }, [chat])
     
     const handleSendMessage = async () => {
         if (!question.trim()) return
@@ -56,10 +32,13 @@ export default function Chat() {
         if (response.ok) {
         const result = await response.json()
         //const result = await response
-        console.log("HIIIII response" , result)
         setChat(prev => [...prev, result.message])
         }
         setLoading(false)
+    }
+    
+    const handleSaveChat = () => {
+      saveChat(chat);
     }
 
     return(
@@ -77,7 +56,7 @@ export default function Chat() {
                 <input value={question} onChange={(e) => setQuestion(e.target.value)}
                     placeholder = "Type here" className="w-[80%] flex-grow border-2 rounded-[12px] p-2 border-[#D7D7D7]"></input>
                 <button className="bg-[#1F8FBF] hover:bg-[#1F8FBF] rounded-[12px] w-[10%] px-5 py-3 text-white" onClick={handleSendMessage} disabled={loading} type="submit">Send</button>
-                <button className="bg-[#CDCDCD] hover:bg-[#1F8FBF] rounded-[12px] w-[10%] px-5 py-3 text-white" disabled={loading} type="submit">Next</button>
+                <button className="bg-[#CDCDCD] hover:bg-[#1F8FBF] rounded-[12px] w-[10%] px-5 py-3 text-white" onClick={handleSaveChat} disabled={loading} type="submit">Done</button>
             </div>
         </div>
     );
