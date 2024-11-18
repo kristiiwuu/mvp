@@ -15,7 +15,7 @@ export async function saveChat(chat) {
     .from('chat_history')
     .insert([
       { chat: JSON.stringify(chat),
-        user: user
+        user_id: user.id
        }
     ])
   
