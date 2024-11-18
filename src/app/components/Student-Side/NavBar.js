@@ -1,13 +1,7 @@
 import ProblemNumber from "./ProblemNumber";
 import { useState } from 'react';
 
-export default function NavBar() {
-    const [selectedNum, setSelectedNum] = useState(1);
-
-    const handleClick = (num) => {
-        setSelectedNum(num);
-    }
-
+export default function NavBar({handleClick, selectedNum}) {
     return (
         <div className="w-21 h-screen border-2 rounded-[12px] border-[#D7D7D7] bg-[#FFF] text-black px-4 py-6 flex flex-col justify-between gap-2">
             <ProblemNumber num={1} selected={selectedNum === 1} onClick={() => handleClick(1)}/>
