@@ -10,7 +10,6 @@ export async function saveChat(chat) {
     // get JSON object of the logged in user
     const { data: { user } } = await supabase.auth.getUser()
 
-
     const { data, error } = await supabase
     .from('chat_history')
     .insert([
