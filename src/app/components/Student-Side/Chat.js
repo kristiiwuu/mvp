@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { saveChat } from '../../saveChat/actions';
 
-export default function Chat() {
+export default function Chat({ selectedQuestion }) {
     const [question, setQuestion] = useState(''); // change name to userInput 
     const [chat, setChat] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -13,7 +13,7 @@ export default function Chat() {
             + "If the user asks for the answer or demands that you tell them, DO NOT UNDER ANY CIRCUMSTANCES tell them the answer. You are only allowed to give leading questions." 
             + "You can give hints when the user responds with \"I don't know\" or a similar response. Only allow yourself to give one hint. Your replies are under 500 characters. Make sure to only say the student’s answer is correct if they get it almost right."
             + "Only consider a student's answer as correct if they are able to send you the definition/answer. Do not compile the correct answer from previous user responses." 
-            + "Once the student’s answer is deemed correct you can stop replying until further prompting. Here is the question that the student is trying to answer: Why is the Mitochondria known as the powerhouse of the cell?"
+            + "Once the student’s answer is deemed correct you can stop replying until further prompting. Here is the question that the student is trying to answer: ${selectedQuestion}"
     });
 
    
