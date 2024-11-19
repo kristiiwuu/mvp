@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { saveChat } from '../../saveChat/actions';
 import TextBubble from './TextBubble';
+import Suggestions from './Suggestions';
 
 export default function Chat({ selectedQuestion }) {
     const [userInput, setUserInput] = useState(''); 
@@ -18,8 +19,11 @@ export default function Chat({ selectedQuestion }) {
     });
    
     // useEffect(() => {
-    //   console.log("CHAT:", JSON.stringify(chat));
-    // }, [chat])
+    //   setSystemPrompt(prev => ({
+    //     ...prev,
+    //     content: `Once the student’s answer is deemed correct you can stop replying until further prompting. Here is the question that the student is trying to answer: ${selectedQuestion}`
+    //   }));
+    // }, [selectedQuestion])
     
     const handleSendMessage = async () => {
         if (!userInput.trim()) return
@@ -46,19 +50,38 @@ export default function Chat({ selectedQuestion }) {
       saveChat(chat);
     }
 
+    const suggestions = ["Can you give an example?", "Can you explain in a different way?", "I'm not sure"];
+
+    const handleUseSuggestion = (text) => {
+        setUserInput(text);
+        handleSendMessage();
+    }
+
     return(
         <div className="h-screen text-black border-2 rounded-[12px] border-[#D7D7D7] bg-[#FFF] px-9 py-6 flex flex-col justify-between w-auto text-lg">
+            {/* chat */}
             <div className="flex flex-col gap-6 overflow-y-auto max-h-[400px]"> 
                 {chat.map((message, index) => (
-                  <TextBubble index={index} message={message}/>
+                  <TextBubble key={index} message={message}/>
                 ))}
             </div>
-            <div className="flex gap-4">
+            {/* user inputs*/}
+            <div className="flex flex-col gap-2">
+              {/* suggestion bubbles */}
+              <div className="w-auto flex gap-2">
+                {suggestions.map((text, index) => {
+                  return <Suggestions key={index} text={text} onClick={() => handleUseSuggestion(text)} />
+                })}
+              </div>
+              {/* input bar */}
+              <div className="flex gap-4">
                 <input value={userInput} onChange={(e) => setUserInput(e.target.value)}
                     placeholder = "Type here" className="w-[80%] flex-grow border-2 rounded-[12px] p-2 border-[#D7D7D7]"></input>
-                <button className="bg-[#CDCDCD] hover:bg-[#1F8FBF] rounded-[12px] w-[10%] px-5 py-3 text-white" onClick={handleSendMessage} disabled={loading} type="submit">Send</button>
-                <button className="bg-[#CDCDCD] hover:bg-[#1F8FBF] rounded-[12px] w-[10%] px-5 py-3 text-white" onClick={handleSaveChat} disabled={loading} type="submit">Done</button>
+                <button className={`${userInput.trim() ? 'bg-[#1F8FBF]' : 'bg-[#CDCDCD]'}  hover:bg-[#1F8FBF] rounded-[12px] w-[10%] px-5 py-3 text-white`} onClick={handleSendMessage} disabled={loading} type="submit">Send</button>
+                <button className="bg-[#CDCDCD] hover:bg-[#1F8FBF] rounded-[12px] w-[10%] px-5 py-3 text-white" onClick={handleSaveChat} disabled={loading} type="submit">Submit</button>
+              </div>
             </div>
         </div>
     );
 }
+
