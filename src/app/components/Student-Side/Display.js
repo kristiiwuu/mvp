@@ -3,7 +3,7 @@ import Chat from "./Chat";
 
 export default function Display({ selectedQuestion }) {
     return(
-        <div className="w-screen h-auto flex flex-col gap-5">
+        <div className="w-screen h-auto flex flex-col">
             <Question selectedQuestion ={selectedQuestion}/>
             <Chat selectedQuestion={selectedQuestion}/>
         </div>
