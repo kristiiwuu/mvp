@@ -66,9 +66,23 @@ export default function Chat({ selectedNum, selectedQuestion }) {
 
     const suggestions = ["Can you give an example?", "Can you explain in a different way?", "I'm not sure"];
 
-    const handleUseSuggestion = (text) => {
-        setUserInput(text);
-        handleSendMessage();
+    const handleUseSuggestion = async (text) => {
+        setChat(prev => [...prev, { role: 'user', content: text }])
+        setUserInput('')
+        setLoading(true)
+
+        const response = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ messages: [systemPrompt, ...chat, { role: 'user', content: text }] }),
+        })
+
+        if (response.ok) {
+        const result = await response.json()
+        //const result = await response
+        setChat(prev => [...prev, result.message])
+        }
+        setLoading(false);
     }
 
     return(
