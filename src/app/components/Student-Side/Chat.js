@@ -7,7 +7,9 @@ export default function Chat({ selectedNum, selectedQuestion }) {
     const [userInput, setUserInput] = useState(''); 
     const [chat, setChat] = useState([]);
     const [loading, setLoading] = useState(false);
+    //const [saveChat, setSaveChat] = useState('');
 
+    
     const [systemPrompt, setSystemPrompt] = useState({
       role: "system",
       content: "You are a middle school teacher. You address your user as your student."
@@ -18,6 +20,24 @@ export default function Chat({ selectedNum, selectedQuestion }) {
             + `Once the student’s answer is deemed correct you can stop replying until further prompting. Here is the question that the student is trying to answer: ${selectedQuestion}`
     });
 
+    useEffect(() => {
+        setSystemPrompt({
+            role: "system",
+            content: `You are a middle school teacher. You address your user as your student.`
+            + `You always reply with guiding questions that help them reach the answer by meeting students where they are, and NEVER directly give the correct answer.`
+            + `If the user asks for the answer or demands that you tell them, DO NOT UNDER ANY CIRCUMSTANCES tell them the answer. You are only allowed to give leading questions.` 
+            + `You can give hints when the user responds with "I don't know" or a similar response. Only allow yourself to give one hint. Your replies are under 500 characters. Make sure to only say the student’s answer is correct if they get it almost right.`
+            + `Only consider a student's answer as correct if they are able to send you the definition/answer. Do not compile the correct answer from previous user responses.` 
+            + `Once the student’s answer is deemed correct you can stop replying until further prompting. Here is the question that the student is trying to answer: ${selectedQuestion}`
+        });
+
+        handleSaveChat();
+        setChat([]);
+    }, [selectedNum, selectedQuestion, setSystemPrompt]); // Add setSystemPrompt to the dependency array
+
+
+    
+    console.log(`selected question:  ${selectedQuestion}`)
     useEffect(() => {
       scrollToLastChat();
     }, [chat])
@@ -30,13 +50,8 @@ export default function Chat({ selectedNum, selectedQuestion }) {
         lastChatRef.current.scrollIntoView();
       }
     }
-   
-    // useEffect(() => {
-    //   setSystemPrompt(prev => ({
-    //     ...prev,
-    //     content: `Once the student’s answer is deemed correct you can stop replying until further prompting. Here is the question that the student is trying to answer: ${selectedQuestion}`
-    //   }));
-    // }, [selectedQuestion])
+
+    
     
     const handleSendMessage = async () => {
         if (!userInput.trim()) return
@@ -84,6 +99,7 @@ export default function Chat({ selectedNum, selectedQuestion }) {
         }
         setLoading(false);
     }
+
 
     return(
         <div className="text-black border-2 rounded-[12px] border-[#D7D7D7] bg-[#FFF] px-9 py-6 flex flex-col justify-between w-auto text-lg flex-grow overflow-hidden">
