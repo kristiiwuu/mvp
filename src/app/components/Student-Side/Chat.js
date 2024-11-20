@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { saveChat } from '../../saveChat/actions';
 import TextBubble from './TextBubble';
 import Suggestions from './Suggestions';
@@ -17,6 +17,19 @@ export default function Chat({ selectedQuestion }) {
             + "Only consider a student's answer as correct if they are able to send you the definition/answer. Do not compile the correct answer from previous user responses." 
             + `Once the student’s answer is deemed correct you can stop replying until further prompting. Here is the question that the student is trying to answer: ${selectedQuestion}`
     });
+
+    useEffect(() => {
+      scrollToLastChat();
+    }, [chat])
+
+    const lastChatRef = useRef(null);
+
+    const scrollToLastChat = () => {
+      if (lastChatRef.current)
+      {
+        lastChatRef.current.scrollIntoView();
+      }
+    }
    
     // useEffect(() => {
     //   setSystemPrompt(prev => ({
@@ -43,7 +56,8 @@ export default function Chat({ selectedQuestion }) {
         //const result = await response
         setChat(prev => [...prev, result.message])
         }
-        setLoading(false)
+        setLoading(false);
+        
     }
     
     const handleSaveChat = () => {
@@ -58,15 +72,16 @@ export default function Chat({ selectedQuestion }) {
     }
 
     return(
-        <div className="h-screen text-black border-2 rounded-[12px] border-[#D7D7D7] bg-[#FFF] px-9 py-6 flex flex-col justify-between w-auto text-lg">
+        <div className="text-black border-2 rounded-[12px] border-[#D7D7D7] bg-[#FFF] px-9 py-6 flex flex-col justify-between w-auto text-lg flex-grow overflow-hidden">
             {/* chat */}
-            <div className="flex flex-col gap-6 overflow-y-auto max-h-[400px]">
-                {chat.map((message, index) => (
-                  <TextBubble key={index} message={message}/>
-                ))}
+            <div className="flex gap-6 overflow-y-auto max-h-[400px] flex-col">
+                {chat.map((message, index) => {
+                  return <TextBubble ref={index == chat.length - 1 ? lastChatRef : null} key={index} message={message}/>;
+                  
+                })}
             </div>
             {/* user inputs*/}
-            <div className="flex flex-col gap-2 m-0 p-0">
+            <div className="flex flex-col gap-2 mt-2 p-0">
               {/* suggestion bubbles */}
               <div className="w-auto flex gap-2 flex-wrap">
                 {suggestions.map((text, index) => {
