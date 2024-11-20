@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import '../globals.css';
 import NavBar from "../components/Student-Side/NavBar";
 import Display from "../components/Student-Side/Display";
+import { saveChat } from "../saveChat/actions";
 
 export default function Home() {  
   const questions = {
@@ -37,8 +38,10 @@ export default function Home() {
 
     setSelectedNum(num);
     setSelectedQuestion(questions[num]); 
-    setChat([]); // Clear the existing chat history
+    
+    //setChat([]); // Clear the existing chat history
     console.log("Chat cleared");
+    // saveChat(chat, num)
   }
 
   return (
