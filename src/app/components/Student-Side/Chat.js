@@ -58,9 +58,9 @@ export default function Chat({ selectedQuestion }) {
     }
 
     return(
-        <div className="h-screen text-black border-2 rounded-[12px] border-[#D7D7D7] bg-[#FFF] px-9 py-6 flex flex-col justify-between w-auto text-lg">
+        <div className="h-screen max-h-auto text-black border-2 rounded-[12px] border-[#D7D7D7] bg-[#FFF] px-9 py-6 flex flex-col justify-between w-auto text-lg">
             {/* chat */}
-            <div className="bg-pink-50 flex flex-col gap-6 overflow-y-auto max-h-[70%] mb-0">
+            <div className="bg-pink-50 flex flex-col flex-grow gap-6 overflow-y-auto max-h-[50%]">
                 {chat.map((message, index) => (
                   <TextBubble key={index} message={message}/>
                 ))}
@@ -68,7 +68,7 @@ export default function Chat({ selectedQuestion }) {
             {/* user inputs*/}
             <div className="flex flex-col gap-2 m-0 p-0">
               {/* suggestion bubbles */}
-              <div className="w-auto flex gap-2">
+              <div className="w-auto flex gap-2 flex-wrap">
                 {suggestions.map((text, index) => {
                   return <Suggestions key={index} text={text} onClick={() => handleUseSuggestion(text)} />
                 })}

@@ -16,21 +16,16 @@ export async function login(formData) {
 
   const { error } = await supabase.auth.signInWithPassword(data)
 
-  if (error && error.code == 'invalid_credentials') {
-    return redirect(`/error/invalid_credentials`)
-  }
-
-  if (error && error.code == 'user_already_exists') {
-    return redirect(`/error/user_already_exists`)
-  }
-
-  if (error && error.code == 'weak_password') {
-    return redirect(`/error/weak_password`)
-  }
-
-  if (error) {
-    console.error('Sign-up error:', error.message)
-    return redirect(`/error?message=${encodeURIComponent(error.message)}`)
+  if (error){
+    if(error.code == 'invalid_credentials') {
+      return redirect(`/error/invalid_credentials`)
+    }
+    else if(error.code == 'user_already_exists') {
+      return redirect(`/error/user_already_exists`)
+    }
+    else if(error.code == 'weak_password') {
+      return redirect(`/error/weak_password`)
+    }
   }
 
   // revalidate home page and layout (and paths that might change when signed in)
@@ -48,18 +43,17 @@ export async function signup(formData) {
 
   const { error } = await supabase.auth.signUp(data)
 
-  if (error && error.code == 'invalid_credentials') {
-    return redirect(`/error/invalid_credentials`)
+  if (error){
+    if(error.code == 'invalid_credentials') {
+      return redirect(`/error/invalid_credentials`)
+    }
+    else if(error.code == 'user_already_exists') {
+      return redirect(`/error/user_already_exists`)
+    }
+    else if(error.code == 'weak_password') {
+      return redirect(`/error/weak_password`)
+    }
   }
-
-  if (error && error.code == 'user_already_exists') {
-    return redirect(`/error/user_already_exists`)
-  }
-
-  if (error && error.code == 'weak_password') {
-    return redirect(`/error/weak_password`)
-  }
-
   // if (error) {
   //   console.error('Sign-up error:', error.message)
   //   return redirect(`/error?message=${encodeURIComponent(error.message)}`)
