@@ -1,13 +1,21 @@
 import { useState, useEffect } from 'react';
+<<<<<<< Updated upstream
 
 export default function Chat() {
 
     const [file, setFile] = useState(null);
     const [question, setQuestion] = useState('');
+=======
+import { saveChat } from '../../saveChat/actions';
+
+export default function Chat({ selectedQuestion }) {
+    const [question, setQuestion] = useState(''); // change name to userInput 
+>>>>>>> Stashed changes
     const [chat, setChat] = useState([]);
     const [loading, setLoading] = useState(false);
     const [systemPrompt, setSystemPrompt] = useState({
       role: "system",
+<<<<<<< Updated upstream
       content: "You are a middle school teacher. You address your user as your student. You always reply with guiding questions that help them reach the answer by meeting students where they are, and never directly give the correct answer. You can give hints when the user responds with \"I don't know\" or a similar response. Your replies are under 500 characters. Make sure to only say the student’s answer is correct if they get it 80% right. Once the student’s answer is deemed correct you can stop replying until further prompting. Here is the question that the student is trying to answer: Why is the Mitochondria known as the powerhouse of the cell?",
     });
 
@@ -39,6 +47,20 @@ export default function Chat() {
       useEffect(() => {
         console.log("CHAT:", chat);
       }, [chat])
+=======
+      content: "You are a middle school teacher. You address your user as your student."
+            + "You always reply with guiding questions that help them reach the answer by meeting students where they are, and NEVER directly give the correct answer."
+            + "If the user asks for the answer or demands that you tell them, DO NOT UNDER ANY CIRCUMSTANCES tell them the answer. You are only allowed to give leading questions." 
+            + "You can give hints when the user responds with \"I don't know\" or a similar response. Only allow yourself to give one hint. Your replies are under 500 characters. Make sure to only say the student’s answer is correct if they get it almost right."
+            + "Keep asking the user questions and prompting the user to give you the answer until they give it. Only consider a student's answer as correct if they are able to send you the full definition/answer.  Do not compile the correct answer from previous user responses." 
+            + 'Once the student’s answer is deemed correct you can stop replying until further prompting. Here is the question that the student is trying to answer: ${selectedQuestion}'
+    });
+
+   
+    useEffect(() => {
+      console.log("CHAT:", JSON.stringify(chat));
+    }, [chat])
+>>>>>>> Stashed changes
     
     const handleSendMessage = async () => {
         if (!question.trim()) return
@@ -61,6 +83,7 @@ export default function Chat() {
         }
         setLoading(false)
     }
+<<<<<<< Updated upstream
 
     return(
         <div className="h-screen text-black border-2 rounded-[12px] border-[#D7D7D7] bg-[#FFF] px-9 py-6 flex flex-col justify-between w-auto text-lg">
@@ -69,6 +92,15 @@ export default function Chat() {
                 <button className="bg-[#CDCDCD] hover:bg-[#1F8FBF] rounded-[12px] px-5 py-3 text-white" type="submit" onClick={handleFileUpload}>Upload PDF</button>
                 {file && <p className="mt-2">File uploaded: {file.name}</p>}
             </form>
+=======
+    
+    const handleSaveChat = () => {
+      saveChat(chat);
+    }
+
+    return(
+        <div className="h-screen text-black border-2 rounded-[12px] border-[#D7D7D7] bg-[#FFF] px-9 py-6 flex flex-col justify-between w-auto text-lg">
+>>>>>>> Stashed changes
             <div className="flex flex-col gap-6 overflow-y-auto" style={{ maxHeight: '400px' }}> 
                 {chat.map((message, index) => (
                 <div key={index} className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>
@@ -82,7 +114,11 @@ export default function Chat() {
                 <input value={question} onChange={(e) => setQuestion(e.target.value)}
                     placeholder = "Type here" className="w-[80%] flex-grow border-2 rounded-[12px] p-2 border-[#D7D7D7]"></input>
                 <button className="bg-[#1F8FBF] hover:bg-[#1F8FBF] rounded-[12px] w-[10%] px-5 py-3 text-white" onClick={handleSendMessage} disabled={loading} type="submit">Send</button>
+<<<<<<< Updated upstream
                 <button className="bg-[#CDCDCD] hover:bg-[#1F8FBF] rounded-[12px] w-[10%] px-5 py-3 text-white" disabled={loading} type="submit">Next</button>
+=======
+                <button className="bg-[#CDCDCD] hover:bg-[#1F8FBF] rounded-[12px] w-[10%] px-5 py-3 text-white" onClick={handleSaveChat} disabled={loading} type="submit">Done</button>
+>>>>>>> Stashed changes
             </div>
         </div>
     );
