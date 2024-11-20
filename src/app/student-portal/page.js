@@ -31,7 +31,7 @@ export default function Home() {
   return (
     <div className="font-orienta h-screen bg-[#F8F7F4] px-12 pt-10 pb-12 flex gap-5">
       <NavBar handleClick={handleClick} selectedNum={selectedNum}/>
-      <Display selectedQuestion={selectedQuestion}/>
+      <Display selectedNum = {selectedNum} selectedQuestion={selectedQuestion}/>
     </div>
   );
 }
