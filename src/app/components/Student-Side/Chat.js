@@ -3,7 +3,7 @@ import { saveChat } from '../../saveChat/actions';
 import TextBubble from './TextBubble';
 import Suggestions from './Suggestions';
 
-export default function Chat({ selectedQuestion }) {
+export default function Chat({ selectedNum, selectedQuestion }) {
     const [userInput, setUserInput] = useState(''); 
     const [chat, setChat] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -61,7 +61,7 @@ export default function Chat({ selectedQuestion }) {
     }
     
     const handleSaveChat = () => {
-      saveChat(chat);
+      saveChat(chat, selectedNum);
     }
 
     const suggestions = ["Can you give an example?", "Can you explain in a different way?", "I'm not sure"];
@@ -74,14 +74,13 @@ export default function Chat({ selectedQuestion }) {
     return(
         <div className="text-black border-2 rounded-[12px] border-[#D7D7D7] bg-[#FFF] px-9 py-6 flex flex-col justify-between w-auto text-lg flex-grow overflow-hidden">
             {/* chat */}
-            <div className="flex gap-6 overflow-y-auto max-h-[400px] flex-col">
+            <div className="flex gap-6 overflow-y-auto max-h-auto flex-col">
                 {chat.map((message, index) => {
                   return <TextBubble ref={index == chat.length - 1 ? lastChatRef : null} key={index} message={message}/>;
-                  
                 })}
             </div>
             {/* user inputs*/}
-            <div className="flex flex-col gap-2 mt-2 p-0">
+            <div className="flex flex-col gap-2 mt-5 p-0">
               {/* suggestion bubbles */}
               <div className="w-auto flex gap-2 flex-wrap">
                 {suggestions.map((text, index) => {

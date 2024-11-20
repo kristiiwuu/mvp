@@ -1,11 +1,11 @@
 import Question from "./Question";
 import Chat from "./Chat";
 
-export default function Display({ selectedQuestion }) {
+export default function Display({ selectedNum, selectedQuestion }) {
     return(
         <div className="w-screen flex flex-col gap-5">
             <Question selectedQuestion ={selectedQuestion}/>
-            <Chat selectedQuestion={selectedQuestion}/>
+            <Chat selectedNum={selectedNum} selectedQuestion={selectedQuestion}/>
         </div>
     );
 }
