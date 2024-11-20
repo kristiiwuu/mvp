@@ -58,9 +58,9 @@ export default function Chat({ selectedQuestion }) {
     }
 
     return(
-        <div className="h-[75%] mt-5 max-h-screen text-black border-2 rounded-[12px] border-[#D7D7D7] bg-[#FFF] px-9 py-6 flex flex-col justify-between w-auto text-lg">
+        <div className="h-screen text-black border-2 rounded-[12px] border-[#D7D7D7] bg-[#FFF] px-9 py-6 flex flex-col justify-between w-auto text-lg">
             {/* chat */}
-            <div className="flex flex-col flex-grow gap-6 overflow-y-auto max-h-[calc(100vh-450px)]">
+            <div className="flex flex-col gap-6 overflow-y-auto max-h-[400px]">
                 {chat.map((message, index) => (
                   <TextBubble key={index} message={message}/>
                 ))}
