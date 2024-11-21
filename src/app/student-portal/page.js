@@ -19,8 +19,8 @@ export default function Home() {
     10: "How can changes in the environment, like pollution or warming oceans, affect partnerships like the one between coral and algae?"
   };
 
-  const [selectedNum, setSelectedNum] = useState(2);
-  const [selectedQuestion, setSelectedQuestion] = useState(questions[2]);
+  const [selectedNum, setSelectedNum] = useState(1);
+  const [selectedQuestion, setSelectedQuestion] = useState(questions[1]);
   const [chat, setChat] = useState([]);
   const [systemPrompt, setSystemPrompt] = useState({
     role: "system",
@@ -29,19 +29,18 @@ export default function Home() {
         + "If the user asks for the answer or demands that you tell them, DO NOT UNDER ANY CIRCUMSTANCES tell them the answer. You are only allowed to give leading questions." 
         + "You can give hints when the user responds with \"I don't know\" or a similar response. Only allow yourself to give one hint. Your replies are under 500 characters. Make sure to only say the student’s answer is correct if they get it almost right."
         + "Only consider a student's answer as correct if they are able to send you the definition/answer. Do not compile the correct answer from previous user responses." 
-        + `Once the student’s answer is deemed correct you can stop replying until further prompting. Here is the question that the student is trying to answer: ${questions[2]}`
+        + `Once the student’s answer is deemed correct you can stop replying until further prompting. Here is the question that the student is trying to answer: ${questions[1]}`
   });
+  const [saved, setSaved] = useState(false);
 
   const handleClick = (num) => {
-    console.log("Selected Num:", num);
-    console.log("Selected Question:", questions[num]);
-
-    setSelectedNum(num);
-    setSelectedQuestion(questions[num]); 
-    
-    //setChat([]); // Clear the existing chat history
-    console.log("Chat cleared");
-    // saveChat(chat, num)
+    if(saved || chat.length == 0) {
+      setSelectedNum(num);
+      setSelectedQuestion(questions[num]); 
+    }
+    else {
+      alert("Don't forget to submit before moving onto the next question!");
+    }
   }
 
   return (
@@ -50,7 +49,11 @@ export default function Home() {
       <Display 
         selectedNum={selectedNum} 
         selectedQuestion={selectedQuestion} 
-        setSystemPrompt={setSystemPrompt} // Pass setSystemPrompt as a prop
+        chat={chat}
+        setChat={setChat}
+        systemPrompt={systemPrompt}
+        setSystemPrompt={setSystemPrompt} 
+        setSaved={setSaved}
       />
     </div>
   );

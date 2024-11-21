@@ -3,23 +3,11 @@ import { saveChat } from '../../saveChat/actions';
 import TextBubble from './TextBubble';
 import Suggestions from './Suggestions';
 
-export default function Chat({ selectedNum, selectedQuestion }) {
+export default function Chat({ selectedNum, selectedQuestion, chat, setChat, systemPrompt, setSystemPrompt, setSaved }) {
     const [userInput, setUserInput] = useState(''); 
-    const [chat, setChat] = useState([]);
+    // const [chat, setChat] = useState([]);
     const [loading, setLoading] = useState(false);
-    //const [saveChat, setSaveChat] = useState('');
-
     
-    const [systemPrompt, setSystemPrompt] = useState({
-      role: "system",
-      content: "You are a middle school teacher. You address your user as your student."
-            + "You always reply with guiding questions that help them reach the answer by meeting students where they are, and NEVER directly give the correct answer."
-            + "If the user asks for the answer or demands that you tell them, DO NOT UNDER ANY CIRCUMSTANCES tell them the answer. You are only allowed to give leading questions." 
-            + "You can give hints when the user responds with \"I don't know\" or a similar response. Only allow yourself to give one hint. Your replies are under 500 characters. Make sure to only say the student’s answer is correct if they get it almost right."
-            + "Only consider a student's answer as correct if they are able to send you the definition/answer. Do not compile the correct answer from previous user responses." 
-            + `Once the student’s answer is deemed correct you can stop replying until further prompting. Here is the question that the student is trying to answer: ${selectedQuestion}`
-    });
-
     useEffect(() => {
         setSystemPrompt({
             role: "system",
@@ -30,14 +18,12 @@ export default function Chat({ selectedNum, selectedQuestion }) {
             + `Only consider a student's answer as correct if they are able to send you the definition/answer. Do not compile the correct answer from previous user responses.` 
             + `Once the student’s answer is deemed correct you can stop replying until further prompting. Here is the question that the student is trying to answer: ${selectedQuestion}`
         });
-
-        handleSaveChat();
+        // handleSaveChat();
+        setSaved(false);
         setChat([]);
-    }, [selectedNum, selectedQuestion, setSystemPrompt]); // Add setSystemPrompt to the dependency array
+    }, [selectedNum, selectedQuestion]); 
 
-
-    
-    console.log(`selected question:  ${selectedQuestion}`)
+    // Auto-scroll
     useEffect(() => {
       scrollToLastChat();
     }, [chat])
@@ -51,8 +37,7 @@ export default function Chat({ selectedNum, selectedQuestion }) {
       }
     }
 
-    
-    
+    // send message to duey
     const handleSendMessage = async () => {
         if (!userInput.trim()) return
 
@@ -69,16 +54,19 @@ export default function Chat({ selectedNum, selectedQuestion }) {
         if (response.ok) {
         const result = await response.json()
         //const result = await response
-        setChat(prev => [...prev, result.message])
+        setChat([prev => [...prev, result.message]])
         }
         setLoading(false);
-        
     }
     
+    // save chat history in supabase
     const handleSaveChat = () => {
       saveChat(chat, selectedNum);
+      setSaved(true);
+      setChat([]);
     }
 
+    // suggestion bubbles
     const suggestions = ["Can you give an example?", "Can you explain in a different way?", "I'm not sure"];
 
     const handleUseSuggestion = async (text) => {
@@ -99,7 +87,6 @@ export default function Chat({ selectedNum, selectedQuestion }) {
         }
         setLoading(false);
     }
-
 
     return(
         <div className="text-black border-2 rounded-[12px] border-[#D7D7D7] bg-[#FFF] px-9 py-6 flex flex-col justify-between w-auto text-lg flex-grow overflow-hidden">
@@ -122,7 +109,7 @@ export default function Chat({ selectedNum, selectedQuestion }) {
                 <input value={userInput} onChange={(e) => setUserInput(e.target.value)}
                     placeholder = "Type here" className="w-[80%] flex-grow border-2 rounded-[12px] p-2 border-[#D7D7D7]"></input>
                 <button className={`${userInput.trim() ? 'bg-[#1F8FBF]' : 'bg-[#CDCDCD]'}  hover:bg-[#1F8FBF] rounded-[12px] w-[10%] px-5 py-3 text-white`} onClick={handleSendMessage} disabled={loading} type="submit">Send</button>
-                <button className="bg-[#CDCDCD] hover:bg-[#1F8FBF] rounded-[12px] w-[10%] px-5 py-3 text-white" onClick={handleSaveChat} disabled={loading} type="submit">Submit</button>
+                <button className={`${chat.length > 0 ? 'bg-[#1F8FBF]' : 'bg-[#CDCDCD]'} hover:bg-[#1F8FBF] rounded-[12px] w-[10%] px-5 py-3 text-white`} onClick={handleSaveChat} disabled={loading} type="submit">Submit</button>
               </div>
             </div>
         </div>
