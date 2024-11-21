@@ -5,9 +5,9 @@ import Suggestions from './Suggestions';
 
 export default function Chat({ selectedNum, selectedQuestion, chat, setChat, systemPrompt, setSystemPrompt, setSaved }) {
     const [userInput, setUserInput] = useState(''); 
-    // const [chat, setChat] = useState([]);
     const [loading, setLoading] = useState(false);
     
+    // Update system prompt if user selects a different question
     useEffect(() => {
         setSystemPrompt({
             role: "system",
@@ -18,7 +18,6 @@ export default function Chat({ selectedNum, selectedQuestion, chat, setChat, sys
             + `Only consider a student's answer as correct if they are able to send you the definition/answer. Do not compile the correct answer from previous user responses.` 
             + `Once the student’s answer is deemed correct you can stop replying until further prompting. Here is the question that the student is trying to answer: ${selectedQuestion}`
         });
-        // handleSaveChat();
         setSaved(false);
         setChat([]);
     }, [selectedNum, selectedQuestion]); 
@@ -37,7 +36,7 @@ export default function Chat({ selectedNum, selectedQuestion, chat, setChat, sys
       }
     }
 
-    // send message to duey
+    // Send message to duey
     const handleSendMessage = async () => {
         if (!userInput.trim()) return
 
@@ -53,10 +52,11 @@ export default function Chat({ selectedNum, selectedQuestion, chat, setChat, sys
 
         if (response.ok) {
         const result = await response.json()
-        //const result = await response
-        setChat([prev => [...prev, result.message]])
+        setChat(prev => [...prev, result.message])
         }
         setLoading(false);
+
+        console.log("CHAT:", chat);
     }
     
     // save chat history in supabase
@@ -82,7 +82,6 @@ export default function Chat({ selectedNum, selectedQuestion, chat, setChat, sys
 
         if (response.ok) {
         const result = await response.json()
-        //const result = await response
         setChat(prev => [...prev, result.message])
         }
         setLoading(false);
