@@ -11,6 +11,7 @@
   "dependencies": {
     "@supabase/ssr": "^0.5.2",
     "@supabase/supabase-js": "^2.46.1",
+    "@svgr/webpack": "^8.1.0",
     "@types/pdfjs-dist": "^2.10.378",
     "ai": "^3.4.21",
     "google-one-tap": "^1.0.6",
