@@ -16,7 +16,7 @@ export async function POST(req, res) {
         temperature: 1
     });
 
-    console.log(completion.choices[0].message)
+    // console.log(completion.choices[0].message)
 
     return Response.json({message:completion.choices[0].message});
 }
