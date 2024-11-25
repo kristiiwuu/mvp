@@ -13,7 +13,10 @@ module.exports = {
       },
       fontFamily: {
         orienta: ['var(--font-orienta)']
-      }
+      },
+      boxShadow: {
+        custom: '4px 4px 0px 1px #B8B7AF',
+      },
     },
   },
   plugins: [],
