@@ -48,7 +48,7 @@ export default function Assignment2() {
       <NavBar handleClick={handleClick} selectedNum={selectedNum}/>
       <Display 
         assignmentId={2}
-        selectedNum={selectedNum} 
+        selectedNum={selectedNum + 10} 
         selectedQuestion={selectedQuestion} 
         chat={chat}
         setChat={setChat}
