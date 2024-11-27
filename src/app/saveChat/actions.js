@@ -4,7 +4,7 @@ import { redirect } from 'next/navigation'
 import { createClient } from '@/utils/supabase/server'
 
 // insert a student to our supabase 'students' table
-export async function saveChat(chat, selectedNum) {    
+export async function saveChat(chat, selectedNum, assignmentId) {    
   const supabase = await createClient() // connections btwn next.js and supa
 
     // get JSON object of the logged in user
@@ -15,7 +15,8 @@ export async function saveChat(chat, selectedNum) {
     .insert([
       { chat: JSON.stringify(chat),
         user_id: user.id,
-        problem_num: selectedNum
+        problem_num: selectedNum,
+        assignment_id: assignmentId
        }
     ])
   
@@ -25,5 +26,5 @@ export async function saveChat(chat, selectedNum) {
     }
   
     revalidatePath('/', 'layout')
-    redirect('/student-portal')
+    redirect(`/assignment/${assignmentId}`)
   }

@@ -4,7 +4,7 @@ import TextBubble from './TextBubble';
 import Suggestions from './Suggestions';
 import BlueDuey from 'public/blue-duey.svg';
 
-export default function Chat({ selectedNum, selectedQuestion, chat, setChat, systemPrompt, setSystemPrompt, setSaved }) {
+export default function Chat({ assignmentId, selectedNum, selectedQuestion, chat, setChat, systemPrompt, setSystemPrompt, setSaved }) {
     const [userInput, setUserInput] = useState(''); 
     const [loading, setLoading] = useState(false);
     const [isCorrect, setIsCorrect] = useState(false);
@@ -73,7 +73,7 @@ export default function Chat({ selectedNum, selectedQuestion, chat, setChat, sys
     
     // save chat history in supabase
     const handleSaveChat = () => {
-      saveChat(chat, selectedNum);
+      saveChat(chat, selectedNum, assignmentId);
       setSaved(true);
       setChat([]);
     }
@@ -120,7 +120,7 @@ export default function Chat({ selectedNum, selectedQuestion, chat, setChat, sys
                 <input value={userInput} onChange={(e) => setUserInput(e.target.value)}
                     placeholder = "Type here" className="w-[80%] flex-grow border-2 rounded-[12px] p-2 border-[#D7D7D7]"></input>
                 <button className={`${userInput.trim() ? 'bg-[#1F8FBF]' : 'bg-[#CDCDCD]'}  hover:bg-[#1F8FBF] rounded-[12px] w-[10%] px-5 py-3 text-white`} onClick={handleSendMessage} disabled={loading} type="submit">Send</button>
-                <button className={`${chat.length > 0 ? 'bg-[#1F8FBF]' : 'bg-[#CDCDCD]'} ${isCorrect && chat.length > 0 ? 'bg-[#79d38d] hover:bg-[#79d38d]' : 'bg-[#CDCDCD] hover:bg-[#1F8FBF]'} rounded-[12px] w-[10%] px-5 py-3 text-white`} onClick={handleSaveChat} disabled={loading} type="submit">Submit</button>
+                <button className={`${chat.length > 0 ? 'bg-[#1F8FBF]' : 'bg-[#CDCDCD]'} ${isCorrect && chat.length > 0 ? 'bg-[#79d38d] hover:bg-[#79d38d]' : 'bg-[#1F8FBF] hover:bg-[#1F8FBF]'} rounded-[12px] w-[10%] px-5 py-3 text-white`} onClick={handleSaveChat} disabled={loading} type="submit">Submit</button>
               </div>
             </div>
         </div>
