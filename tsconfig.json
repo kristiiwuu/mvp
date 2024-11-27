@@ -32,7 +32,7 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx"
-, "middleware.js", "src/utils/supabase/middleware.js", "src/utils/supabase/server.js", "src/utils/supabase/client.js", "src/app/login/actions.js", "src/app/login/page.js" , "src/app/auth/confirm/route.js", "src/app/student-portal/page.js", "src/app/error/invalid_credentials/page.js", "src/app/saveChat/route.js" ],
+, "middleware.js", "src/utils/supabase/middleware.js", "src/utils/supabase/server.js", "src/utils/supabase/client.js", "src/app/login/actions.js", "src/app/login/page.js" , "src/app/auth/confirm/route.js", "src/app/assignment/1/page.js", "src/app/error/invalid_credentials/page.js", "src/app/saveChat/route.js" ],
   "exclude": [
     "node_modules"
   ]
