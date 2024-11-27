@@ -7,7 +7,7 @@ export default function LoginPage() {
       <div className="h-full w-[40%] rounded-lg border-2 border-[#B8B7AF] bg-white shadow-custom flex flex-col justify-center items-center p-[5%]">
         <BlueDuey className=""/>
         <div className="text-[200%] text-[#226387] m-0">welcome to <i>due</i></div>
-        <form className="bg-pink-50 flex flex-col text-[#A1A1A1] self-stretch mt-[2%] mb-0">
+        <form className="flex flex-col text-[#A1A1A1] self-stretch mt-[2%] mb-0">
           <label htmlFor="email" className="text-[70%]">Email:</label>
           <input
             className="bg-[#EBEAE6] rounded-[6px] h-[12%]"
