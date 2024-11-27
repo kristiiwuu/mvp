@@ -53,12 +53,12 @@ export async function signup(formData) {
     else if(error.code == 'weak_password') {
       return redirect(`/error/weak_password`)
     }
+    else {
+      console.error('Sign-up error:', error.message)
+      return redirect(`/error?message=${encodeURIComponent(error.message)}`)
+    }
   }
-  // if (error) {
-  //   console.error('Sign-up error:', error.message)
-  //   return redirect(`/error?message=${encodeURIComponent(error.message)}`)
-  // }
 
   revalidatePath('/', 'layout')
-  redirect('/login')
+  redirect('/student-portal')
 }

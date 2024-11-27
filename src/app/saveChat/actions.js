@@ -13,9 +13,9 @@ export async function saveChat(chat, selectedNum, assignmentId) {
     const { data, error } = await supabase
     .from('chat_history')
     .insert([
-      { chat: JSON.stringify(chat),
+      { chat: chat,
         user_id: user.id,
-        problem_num: selectedNum,
+        question_id: selectedNum,
         assignment_id: assignmentId
        }
     ])
