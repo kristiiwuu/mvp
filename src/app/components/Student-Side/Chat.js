@@ -5,10 +5,23 @@ import Suggestions from './Suggestions';
 import BlueDuey from 'public/blue-duey.svg';
 import UpArrow from 'public/up-arrow.svg';
 
-export default function Chat({ assignmentId, selectedNum, selectedQuestion, chat, setChat, systemPrompt, setSystemPrompt, setSaved }) {
+// Custom alert component
+const CustomAlert = ({ message, onClose }) => (
+    <div className="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-black bg-opacity-50">
+        <div className="bg-white p-5 pb-10 rounded shadow text-black flex flex-col justify-center items-center">
+            <BlueDuey className="scale-50"/>
+            <p>{message}</p>
+            <button onClick={onClose} className="w-[40%] mt-2 bg-[#1F8FBF] text-white hover:bg-[#58B6DF] px-4 py-2 rounded">Close</button>
+        </div>
+    </div>
+);
+
+export default function Chat({ assignmentId, selectedNum, selectedQuestion, chat, setChat, systemPrompt, setSystemPrompt, saved, setSaved }) {
     const [userInput, setUserInput] = useState(''); 
     const [loading, setLoading] = useState(false);
     const [isCorrect, setIsCorrect] = useState(false);
+    const [showAlert, setShowAlert] = useState(false);
+    const [alertMessage, setAlertMessage] = useState('');
     
     // Update system prompt if user selects a different question
     useEffect(() => {
@@ -39,26 +52,7 @@ export default function Chat({ assignmentId, selectedNum, selectedQuestion, chat
             2. Stop responding unless further prompted.
             
             `
-            /*
-            content: `You are a middle school teacher, addressing your user as your student. Your goal is to guide the student to answer the question correctly so that you can respond with "That's correct! You're ready to move onto the next question!" Only respond with "That's correct! You're ready to move onto the next question!" one time at the end when the student answers the question correctly. Always reply with guiding questions that help the student think critically and arrive at the answer independently.
-            
-            NEVER directly provide the correct answer, even if the student demands it. Instead:
-            1. Use open-ended questions to guide their thought process.
-            2. If the student says "I don't know," you may provide ONE hint—no more.
-            
-            Once you feel that the user is nearing the answer, ask them the original question again.
-
-            Only validate the student’s answer as correct if:
-            - They explicitly restate and provide the correct answer/definition.
-            - Their response shows clear understanding or is nearly accurate.
-
-            Do not combine or infer correctness from prior responses from yourself or the user. Once the student’s answer is correct:
-            1. Respond with "That's correct! You're ready to move onto the next question!"
-            2. Stop responding unless further prompted.
-
-            Here is the question the student is trying to answer: ${selectedQuestion}`
-            */
-        });
+         });
         setSaved(false);
         setIsCorrect(false);
         setChat([]);
@@ -104,9 +98,18 @@ export default function Chat({ assignmentId, selectedNum, selectedQuestion, chat
     
     // save chat history in supabase
     const handleSaveChat = () => {
-      saveChat(chat, selectedNum, assignmentId);
-      setSaved(true);
-      setChat([]);
+        if (saved) {
+            setShowAlert(true);
+            setAlertMessage("You already submitted your answers to this question. Please move on to the next!");
+        } 
+        else if (chat.length === 0){
+            setShowAlert(true);
+            setAlertMessage("Please attempt to answer before submitting.")
+        }
+        else {
+            saveChat(chat, selectedNum, assignmentId);
+            setSaved(true);
+        }
     }
 
     // suggestion bubbles
@@ -131,37 +134,40 @@ export default function Chat({ assignmentId, selectedNum, selectedQuestion, chat
     }
 
     return(
-        <div className="text-black border-2 rounded-[12px] border-[#D7D7D7] bg-[#FFF] px-9 py-6 flex flex-col justify-between w-auto text-lg flex-grow overflow-hidden">
-            {/* chat */}
-            <div className="flex gap-6 overflow-y-auto max-h-auto flex-col">
-                {chat.map((message, index) => {
-                  return <TextBubble ref={index == chat.length - 1 ? lastChatRef : null} key={index} message={message} isCorrect={isCorrect}/>;
-                })}
+        <>
+            {showAlert && <CustomAlert message={alertMessage} onClose={() => setShowAlert(false)} />}
+            <div className="text-black border-2 rounded-[12px] border-[#D7D7D7] bg-[#FFF] px-9 py-6 flex flex-col justify-between w-auto text-lg flex-grow overflow-hidden">
+                {/* chat */}
+                <div className="flex gap-6 overflow-y-auto max-h-auto flex-col">
+                    {chat.map((message, index) => {
+                      return <TextBubble ref={index == chat.length - 1 ? lastChatRef : null} key={index} message={message} isCorrect={isCorrect}/>;
+                    })}
+                </div>
+                {/* user inputs*/}
+                <div className="flex flex-col gap-2 mt-5 p-0">
+                  {/* suggestion bubbles */}
+                  <div className="w-auto flex gap-2 flex-wrap">
+                    {suggestions.map((text, index) => {
+                      return <Suggestions key={index} text={text} onClick={() => handleUseSuggestion(text)} />
+                    })}
+                  </div>
+                  {/* input bar */}
+                  <div className="flex gap-4">
+                    <input 
+                        value={userInput} 
+                        onChange={(e) => setUserInput(e.target.value)}
+                        onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
+                        placeholder="Type here" 
+                        className="w-[80%] flex-grow border-2 rounded-[12px] p-2 border-[#D7D7D7]"
+                    ></input>
+                    <button className={`${userInput.trim() ? 'bg-[#1F8FBF]' : 'bg-[#CDCDCD]'}  hover:bg-[#1F8FBF] rounded-[12px] w-[10%] px-5 py-3 text-white flex justify-center`} onClick={handleSendMessage} disabled={loading} type="submit">
+                      <UpArrow/>
+                    </button>
+                    <button className={` ${(isCorrect || saved ) && chat.length > 0 ? 'bg-[#79d38d] hover:bg-[#79d38d]' : 'bg-[#CDCDCD] hover:bg-[#1F8FBF]'} rounded-[12px] w-[10%] px-5 py-3 text-white`} onClick={handleSaveChat} disabled={loading} type="submit">Submit</button>
+                  </div>
+                </div>
             </div>
-            {/* user inputs*/}
-            <div className="flex flex-col gap-2 mt-5 p-0">
-              {/* suggestion bubbles */}
-              <div className="w-auto flex gap-2 flex-wrap">
-                {suggestions.map((text, index) => {
-                  return <Suggestions key={index} text={text} onClick={() => handleUseSuggestion(text)} />
-                })}
-              </div>
-              {/* input bar */}
-              <div className="flex gap-4">
-                <input 
-                    value={userInput} 
-                    onChange={(e) => setUserInput(e.target.value)}
-                    onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
-                    placeholder="Type here" 
-                    className="w-[80%] flex-grow border-2 rounded-[12px] p-2 border-[#D7D7D7]"
-                ></input>
-                <button className={`${userInput.trim() ? 'bg-[#1F8FBF]' : 'bg-[#CDCDCD]'}  hover:bg-[#1F8FBF] rounded-[12px] w-[10%] px-5 py-3 text-white flex justify-center`} onClick={handleSendMessage} disabled={loading} type="submit">
-                  <UpArrow/>
-                </button>
-                <button className={`${chat.length > 0 ? 'bg-[#1F8FBF]' : 'bg-[#CDCDCD]'} ${isCorrect && chat.length > 0 ? 'bg-[#79d38d] hover:bg-[#79d38d]' : 'bg-[#1F8FBF] hover:bg-[#1F8FBF]'} rounded-[12px] w-[10%] px-5 py-3 text-white`} onClick={handleSaveChat} disabled={loading} type="submit">Submit</button>
-              </div>
-            </div>
-        </div>
+        </>
     );
 }
 

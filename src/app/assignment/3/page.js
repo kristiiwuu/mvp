@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import 'src/app/globals.css';
 import NavBar from "../../components/Student-Side/NavBar";
 import Display from "../../components/Student-Side/Display";
-import { saveChat } from "../../saveChat/actions";
 
 export default function Assignment3() {  
   const questions = {
@@ -56,6 +55,7 @@ export default function Assignment3() {
         setChat={setChat}
         systemPrompt={systemPrompt}
         setSystemPrompt={setSystemPrompt} 
+        saved={saved}
         setSaved={setSaved}
       />
     </div>
