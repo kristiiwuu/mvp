@@ -111,6 +111,10 @@ export default function Chat({ assignmentId, selectedNum, selectedQuestion, chat
             setSaved(true);
         }
     }
+    
+    useEffect(() => {
+      setSaved(false);
+    },[chat])
 
     // suggestion bubbles
     const suggestions = ["Can you give an example?", "Can you explain in a different way?", "I'm not sure"];
