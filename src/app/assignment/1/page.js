@@ -59,6 +59,7 @@ export default function Assignment1() {
           setChat={setChat}
           systemPrompt={systemPrompt}
           setSystemPrompt={setSystemPrompt} 
+          saved={saved}
           setSaved={setSaved}
         />
       </div>
