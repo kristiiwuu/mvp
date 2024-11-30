@@ -1,22 +1,14 @@
 "use client"
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
-import Assignment from '../components/Student-Side/Assignment';
+import Header from '../components/Student-Dashboard/Header';
+import Dashboard from '../components/Student-Dashboard/Dashboard';
+import Head from 'next/head';
 
 export default function StudentPortal() {
-    const router = useRouter();
-
-    const handleClick = (num) => {
-        router.push(`/assignment/${num}`);
-    }
-
-    const assignments = [1,2,3];
 
     return(
-        <div className="font-orienta h-screen bg-[#F8F7F4] px-12 pt-10 pb-12 flex flex-wrap gap-5">
-            {assignments.map((num)=> {
-                return <Assignment num={num} onClick={()=> handleClick(num)}/>
-            })}
+        <div className="font-orienta w-auto bg-[#F8F7F4] flex flex-col pb-12">
+            <Header />
+            <Dashboard />
         </div>
     );
 }
