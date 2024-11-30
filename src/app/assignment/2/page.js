@@ -32,16 +32,18 @@ export default function Assignment2() {
         + `Once the student’s answer is deemed correct you can stop replying until further prompting. Here is the question that the student is trying to answer: ${questions[1]}`
   });
   const [saved, setSaved] = useState(false);
+  const [chatHistory, setChatHistory] = useState({}); // stores chat history for each question #
 
   const handleClick = (num) => {
-    if(saved || chat.length == 0) {
-      setSelectedNum(num);
-      setSelectedQuestion(questions[num]); 
-    }
-    else {
-      alert("Don't forget to submit before moving onto the next question!");
-    }
+    setChatHistory(prev => ({ ...prev, [selectedNum]: chat })); // save the current chat under key of selectedNum
+    setSelectedNum(num);  // change selectedNum to the new question #
+    setSelectedQuestion(questions[num]);
   }
+
+  // Effect to restore chat when selectedNum changes
+  useEffect(() => {
+    setChat(chatHistory[selectedNum] || []);
+  }, [selectedNum]);
 
   return (
     <div className="font-orienta h-screen bg-[#F8F7F4] px-12 pt-10 pb-12 flex gap-5">
