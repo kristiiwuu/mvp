@@ -8,13 +8,13 @@ export default function LoginPage() {
 
   return (
     <div className="font-orienta h-screen bg-[#F8F7F4] pt-[5%] pb-[5%] flex text-black justify-center items-center">
-      <div className="h-full w-[40%] rounded-lg border-2 border-[#B8B7AF] bg-white shadow-custom flex flex-col justify-center items-center px-[5%]">
+      <div className="fixed h-[85%] w-[500px] rounded-lg border-2 border-[#B8B7AF] bg-white shadow-custom flex flex-col justify-center items-center px-[5%]">
         <BlueDuey className="scale-75"/>
         <div className="text-[200%] text-[#226387] m-0">welcome to <i>due</i></div>
         
-        <div className="flex">
-          <button onClick={() => setIsLogin(true)} className={`rounded-l-[6px] px-4 py-2 ${isLogin ? 'bg-[#1F8FBF] text-white' : 'bg-[#CDCDCD]'}`}>Log in</button>
-          <button onClick={() => setIsLogin(false)} className={`rounded-r-[6px] px-4 py-2 ${!isLogin ? 'bg-[#1F8FBF] text-white' : 'bg-[#CDCDCD]'}`}>Sign up</button>
+        <div className="flex w-full justify-center">
+          <button onClick={() => setIsLogin(true)} className={`w-full rounded-l-[6px] px-4 py-2 ${isLogin ? 'bg-[#1F8FBF] text-white' : 'bg-[#FFF] border border-[#B8B7AF] rounded-l-[6px] hover:bg-[#C7E3EF] hover:border-[#C7E3EF]'}`}>Log in</button>
+          <button onClick={() => setIsLogin(false)} className={`w-full rounded-r-[6px] px-4 py-2 ${!isLogin ? 'bg-[#1F8FBF] text-white' : 'bg-[#FFF] border border-[#B8B7AF] rounded-r-[6px] hover:bg-[#C7E3EF] hover:border-[#C7E3EF]'}`}>Sign up</button>
         </div>
 
         <form className="flex flex-col text-[#A1A1A1] self-stretch mt-[2%] mb-0">
@@ -70,7 +70,7 @@ export default function LoginPage() {
                 required
               />
               <button
-                className="self-center w-[40%] h-[20%] px-5 py-3 text-white bg-[#1F8FBF] hover:bg-[#58B6DF] rounded-[12px] mt-[4%] mb-[2%] flex justify-center items-center"
+                className="self-center w-[40%] h-[20%] px-5 py-3 text-white bg-[#1F8FBF] hover:bg-[#58B6DF] rounded-[6px] mt-[4%] mb-[2%] flex justify-center items-center"
                 formAction={signup}
               >
                 Sign up
