@@ -1,7 +1,11 @@
+"use client"
+import { useState } from 'react';
 import { login, signup } from "../app/login/actions";
 import BlueDuey from 'public/blue-duey.svg';
 
 export default function LoginPage() {
+  const [isLogin, setIsLogin] = useState(true);
+
   return (
     <div className="font-orienta h-screen bg-[#F8F7F4] pt-[5%] pb-[5%] flex text-black justify-center items-center">
       <div className="h-full w-[40%] rounded-lg border-2 border-[#B8B7AF] bg-white shadow-custom flex flex-col justify-center items-center p-[5%]">
