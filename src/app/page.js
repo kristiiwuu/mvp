@@ -10,7 +10,7 @@ export default function LoginPage() {
     <div className="font-orienta h-screen bg-[#F8F7F4] pt-[5%] pb-[5%] flex text-black justify-center items-center">
       <div className="fixed h-[85%] w-[500px] rounded-lg border-2 border-[#B8B7AF] bg-white shadow-custom flex flex-col justify-center items-center px-[5%]">
         <BlueDuey className="scale-75"/>
-        <div className="text-[200%] text-[#226387] m-0">welcome to <i>due</i></div>
+        <div className="text-[200%] text-[#226387] mb-7">welcome to <i>due</i></div>
         
         <div className="flex w-full justify-center">
           <button onClick={() => setIsLogin(true)} className={`w-full rounded-l-[6px] px-4 py-2 ${isLogin ? 'bg-[#1F8FBF] text-white' : 'bg-[#FFF] border border-[#B8B7AF] rounded-l-[6px] hover:bg-[#C7E3EF] hover:border-[#C7E3EF]'}`}>Log in</button>
