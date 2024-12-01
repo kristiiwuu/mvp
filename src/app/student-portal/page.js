@@ -20,9 +20,9 @@ export default function StudentPortal() {
         fetchUserName();
     }, []);
 
-    const handleClickHome = () => {
-        redirect('/profile-page');
-    }
+    // const handleClickHome = () => {
+    //     redirect('/profile-page');
+    // }
 
     return (
         <div className="font-orienta w-auto bg-[#F8F7F4] flex flex-col pb-12">
