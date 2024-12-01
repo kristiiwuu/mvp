@@ -11,7 +11,7 @@ export async function login(formData) {
   // access email and password form input values 
   const data = {
     email: formData.get('email'),
-    password: formData.get('password'),
+    password: formData.get('password')
   }
 
   const { error } = await supabase.auth.signInWithPassword(data)
@@ -38,21 +38,12 @@ export async function signup(formData) {
 
   const data = {
     email: formData.get('email'),
-    password: formData.get('password'),
+    password: formData.get('password')
   }
 
-  const { error: signupError } = await supabase.auth.signUp(data)
+  const { error: signupError } = await supabase.auth.signUp(data);
 
-  const { data: { user } } = await supabase.auth.getUser()
-
-  const { error: insertError } = await supabase
-  .from('profiles')
-  .insert({
-    'UID': user.id,
-    'name': formData.get('name')
-  })
-
-  if (signupError){
+  if (signupError) {
     if(signupError.code == 'invalid_credentials') {
       return redirect(`/error/invalid_credentials`)
     }
@@ -67,6 +58,15 @@ export async function signup(formData) {
       return redirect(`/error?message=${encodeURIComponent(signupError.message)}`)
     }
   }
+
+  const { data: { user } } = await supabase.auth.getUser()
+
+  const { error } = await supabase
+  .from('profiles')
+  .insert({ 
+    'UID': user.id,
+    'name': formData.get('name') 
+  })
 
   revalidatePath('/', 'layout')
   redirect('/student-portal')
