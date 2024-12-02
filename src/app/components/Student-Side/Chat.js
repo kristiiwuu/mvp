@@ -161,6 +161,7 @@ export default function Chat({ assignmentId, selectedNum, selectedQuestion, chat
                         value={userInput} 
                         onChange={(e) => setUserInput(e.target.value)}
                         onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
+                        onPaste={(e) => e.preventDefault()}
                         placeholder="Type here" 
                         className="w-[80%] flex-grow border-2 rounded-[12px] p-2 border-[#D7D7D7]"
                     ></input>
