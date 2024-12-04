@@ -7,24 +7,38 @@ export default function Assignments() {
 
     const router = useRouter();
 
-    const handleClick = (num) => {
-        router.push(`/assignment/${num}`);
+    const handleClick = (title, dueDate, dueTime, startDate, startTime, endDate, endTime, submitted, index) => {
+        router.push(`/before-page?title=${encodeURIComponent(title)}&dueDate=${encodeURIComponent(dueDate)}&dueTime=
+        ${encodeURIComponent(dueTime)}&startDate=${encodeURIComponent(startDate)}&startTime=${encodeURIComponent(startTime)}&endDate=
+        ${encodeURIComponent(endDate)}&endTime=${encodeURIComponent(endTime)}&submitted=${encodeURIComponent(submitted)}&num=${encodeURIComponent(index+1)}`);
     }
 
     const assignments = [{
         title: "Symbiosis HW",
         dueDate: "November 6, 2024",
         dueTime: "11:59 PM",
+        startDate: "November 1",
+        startTime: "12:00 AM",
+        endDate: "November 15",
+        endTime: "11:59 PM",
         submitted: true
     }, {
         title: "States of Matter HW",
-        dueDate: "November 6, 2024",
+        dueDate: "December 10, 2024",
         dueTime: "11:59 PM",
-        submitted: true
+        startDate: "November 1",
+        startTime: "12:00 AM",
+        endDate: "November 15",
+        endTime: "11:59 PM",
+        submitted: false
     },{
         title: "Water Cycle HW",
-        dueDate: "November 6, 2024",
+        dueDate: "December 10, 2024",
         dueTime: "11:59 PM",
+        startDate: "November 1",
+        startTime: "12:00 AM",
+        endDate: "November 15",
+        endTime: "11:59 PM",
         submitted: false
     }];
 
@@ -32,8 +46,9 @@ export default function Assignments() {
         <div className="w-[50%] h-auto text-[#80817B] text-3xl flex-grow">
             <div className="flex flex-col flex-wrap gap-5">
                 {assignments.map((assignment, index) => {
-                    const { title, dueDate, dueTime, submitted } = assignment;
-                    return <Assignment num={index + 1} title={title} dueDate={dueDate} dueTime={dueTime} submitted={submitted} onClick={() => handleClick(index + 1)}/>
+                    const { title, dueDate, dueTime, submitted, startDate, startTime, endDate, endTime } = assignment;
+                    return <Assignment key={index} num={index + 1} title={title} dueDate={dueDate} dueTime={dueTime} startDate={startDate} startTime={startTime} endDate={endDate} endTime={endTime} submitted={submitted} 
+                    onClick={() => handleClick(title, dueDate, dueTime, startDate, startTime, endDate, endTime, submitted, index)}/>
                 })}
             </div>
         </div>

@@ -19,10 +19,10 @@ export default function LoginPage() {
 
         <form className="flex flex-col text-[#A1A1A1] self-stretch mt-[2%] mb-0">
           {isLogin ? (
-            <>
+            <div className="flex flex-col h-[200px]">
               <label htmlFor="email" className="text-[70%]">Email:</label>
               <input
-                className="bg-[#EBEAE6] rounded-[6px] h-[15%] text-black"
+                className="bg-[#EBEAE6] rounded-[6px] h-[10%] text-black"
                 id="email"
                 name="email"
                 type="email"
@@ -30,21 +30,21 @@ export default function LoginPage() {
               />
               <label className="mt-3 text-[70%]" htmlFor="password">Password:</label>
               <input
-                className="bg-[#EBEAE6] rounded-[6px] h-[15%] text-black"
+                className="bg-[#EBEAE6] rounded-[6px] h-[10%] text-black"
                 id="password"
                 name="password"
                 type="password"
                 required
               />
               <button
-                className="self-center w-[40%] h-[25%] px-5 py-3 text-white bg-[#1F8FBF] hover:bg-[#58B6DF] rounded-[12px] mt-[4%] mb-[2%] flex justify-center items-center"
+                className="self-center w-[40%] h-[20%] px-5 py-3 text-white bg-[#1F8FBF] hover:bg-[#58B6DF] rounded-[6px] mt-[4%] mb-[2%] flex justify-center items-center"
                 formAction={login}
               >
                 Log in
               </button>
-            </>
+            </div>
           ) : (
-            <>
+            <div className="flex flex-col h-[200px]">
               <label htmlFor="name" className="text-[70%]">Name:</label>
               <input
                 className="bg-[#EBEAE6] rounded-[6px] h-[12%]"
@@ -75,7 +75,7 @@ export default function LoginPage() {
               >
                 Sign up
               </button>
-            </>
+            </div>
           )}
         </form>
       </div>
