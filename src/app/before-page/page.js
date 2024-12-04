@@ -20,19 +20,21 @@ export default function StudentPortal() {
 
 
     return(
-        <div className="font-orienta w-auto bg-[#F8F7F4] h-screen flex flex-col pb-12 items-center gap-10">
-            <Header title={title}/>
-            <AssignmentCard 
-                title={title} 
-                dueDate={dueDate} 
-                dueTime={dueTime} 
-                startDate={startDate} 
-                startTime={startTime} 
-                endDate={endDate} 
-                endTime={endTime} 
-                submitted={submitted} 
-                num={num}
-            />
-        </div>
+        <React.Suspense fallback={<div>Loading...</div>}>
+            <div className="font-orienta w-auto bg-[#F8F7F4] h-screen flex flex-col pb-12 items-center gap-10">
+                <Header title={title}/>
+                <AssignmentCard 
+                    title={title} 
+                    dueDate={dueDate} 
+                    dueTime={dueTime} 
+                    startDate={startDate} 
+                    startTime={startTime} 
+                    endDate={endDate} 
+                    endTime={endTime} 
+                    submitted={submitted} 
+                    num={num}
+                />
+            </div>
+        </React.Suspense>
     );
 }
