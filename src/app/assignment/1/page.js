@@ -6,6 +6,8 @@ import Display from "../../components/Student-Side/Display";
 import Title from '../../components/Student-Side/Title'
 
 export default function Assignment1() {  
+  const title = "Symbiosis HW";
+
   const questions = {
     1: "What does symbiosis mean in your own words? How is it different from other ways animals and plants interact? Can you give an example?",
     2: "What is mutualism? How does the goby fish and snapping shrimp partnership show mutualism?",
@@ -48,7 +50,7 @@ export default function Assignment1() {
 
   return (
     <div className="font-orienta h-screen bg-[#F8F7F4] flex flex-col">
-      <Title />
+      <Title title={title} num={1}/>
       <div className="flex gap-5 px-12 pt-5 h-[80%] min-h-[80%]"> 
         <NavBar handleClick={handleClick} selectedNum={selectedNum}/>
         <Display 
