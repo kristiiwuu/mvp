@@ -1,4 +1,5 @@
 "use client"
+import React from 'react';
 import Header from '../components/Before-Page/Header';
 import AssignmentCard from '../components/Before-Page/AssignmentCard'
 import { useSearchParams } from 'next/navigation'
