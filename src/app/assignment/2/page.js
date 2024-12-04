@@ -3,8 +3,11 @@ import { useState, useEffect } from "react";
 import 'src/app/globals.css';
 import NavBar from "../../components/Student-Side/NavBar";
 import Display from "../../components/Student-Side/Display";
+import Title from '../../components/Student-Side/Title'
 
 export default function Assignment2() {  
+  const title = "States of Matter HW";
+
   const questions = {
     1: "What are the three main states of matter?",
     2: "How do particles in a solid behave compared to particles in a liquid?",
@@ -45,19 +48,22 @@ export default function Assignment2() {
   }, [selectedNum]);
 
   return (
-    <div className="font-orienta h-screen bg-[#F8F7F4] px-12 pt-10 pb-12 flex gap-5">
-      <NavBar handleClick={handleClick} selectedNum={selectedNum}/>
-      <Display 
-        assignmentId={2}
-        selectedNum={selectedNum + 10} 
-        selectedQuestion={selectedQuestion} 
-        chat={chat}
-        setChat={setChat}
-        systemPrompt={systemPrompt}
-        setSystemPrompt={setSystemPrompt} 
-        saved={saved}
-        setSaved={setSaved}
-      />
+    <div className="font-orienta h-screen bg-[#F8F7F4] flex flex-col">
+      <Title title={title} num={2}/>
+      <div className="flex gap-5 px-12 pt-5 h-[80%] min-h-[80%]"> 
+        <NavBar handleClick={handleClick} selectedNum={selectedNum}/>
+        <Display 
+          assignmentId={2}
+          selectedNum={selectedNum} 
+          selectedQuestion={selectedQuestion} 
+          chat={chat}
+          setChat={setChat}
+          systemPrompt={systemPrompt}
+          setSystemPrompt={setSystemPrompt} 
+          saved={saved}
+          setSaved={setSaved}
+        />
+      </div>
     </div>
   );
 }
