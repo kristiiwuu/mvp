@@ -49,7 +49,7 @@ export default function Assignment3() {
   }, [selectedNum]);
 
   return (
-    <div className="font-orienta h-screen bg-[#F8F7F4] flex flex-col">
+    <div className=" h-screen bg-[#F8F7F4] flex flex-col">
       <Title title={title} num={3}/>
       <div className="flex gap-5 px-12 pt-5 h-[80%] min-h-[80%]"> 
         <NavBar handleClick={handleClick} selectedNum={selectedNum}/>

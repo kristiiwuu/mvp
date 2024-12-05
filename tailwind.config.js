@@ -50,9 +50,9 @@ module.exports = {
   				'5': 'hsl(var(--chart-5))'
   			}
   		},
-  		fontFamily: {
-  			orienta: ['var(--font-orienta)']
-  		},
+  	  fontFamily: {
+        sans: ['var(--font-figtree)']
+      },
   		boxShadow: {
   			custom: '4px 4px 0px 1px #B8B7AF'
   		},
