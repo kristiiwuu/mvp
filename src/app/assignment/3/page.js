@@ -22,9 +22,23 @@ export default function Assignment3() {
     10: "Why is the water cycle important for life on Earth?"
   };
 
+  const answers = {
+    1: "The four main processes in the water cycle are evaporation, condensation, precipitation, and collection.",
+    2: "Water from lakes and oceans becomes water vapor through evaporation, where heat from the sun causes water to change from a liquid to a gas.",
+    3: "The process is called condensation, where water vapor cools and turns back into liquid, forming clouds.",
+    4: "Precipitation is water released from clouds in the form of rain, snow, sleet, or hail.",
+    5: "Water returns to the oceans through surface runoff, rivers, and streams, as well as through groundwater flow.",
+    6: "The sun provides energy that drives the water cycle by causing evaporation and heating the Earth's surface, initiating movement of water between states.",
+    7: "During infiltration, water soaks into the ground and replenishes groundwater, which can later flow into rivers, lakes, and oceans.",
+    8: "Transpiration is the process where plants release water vapor into the air through their leaves, contributing to the water cycle by adding moisture to the atmosphere.",
+    9: "The water cycle helps distribute heat around the Earth through the movement of water in its various states, influencing weather patterns and climate.",
+    10: "The water cycle is important for life on Earth because it provides fresh water for drinking, agriculture, and ecosystems, while regulating temperature and weather."
+};
+
   const [selectedNum, setSelectedNum] = useState(1);
   const [selectedQuestion, setSelectedQuestion] = useState(questions[1]);
   const [chat, setChat] = useState([]);
+  const [selectedAnswer, setSelectedAnswer] = useState(answers[1]);
   const [systemPrompt, setSystemPrompt] = useState({
     role: "system",
     content: "You are a middle school teacher. You address your user as your student."
@@ -36,11 +50,25 @@ export default function Assignment3() {
   });
   const [saved, setSaved] = useState(false);
   const [chatHistory, setChatHistory] = useState({}); // stores chat history for each question #
+  const [isCorrect, setIsCorrect] = useState(false);
+  const [isCorrectArray, setIsCorrectArray] = useState(Array(10).fill(false)); // Track correctness for each question
+  const [startedArray, setStartedArray] = useState(Array(10).fill(false)); // Track correctness for each question
 
   const handleClick = (num) => {
       setChatHistory(prev => ({ ...prev, [selectedNum]: chat })); // save the current chat under key of selectedNum
       setSelectedNum(num);  // change selectedNum to the new question #
       setSelectedQuestion(questions[num]);
+      setSelectedAnswer(answers[num]);
+      setIsCorrectArray(prev => {
+          const newArray = [...prev];
+          newArray[num - 1] = isCorrect; // Update the correctness for the selected question
+          return newArray;
+      });
+      setStartedArray(prev => { // indicate user started the question
+        const newArray = [...prev];
+        newArray[num-1] = chat.length > 0;
+        return newArray;
+      })
   }
 
   // Effect to restore chat when selectedNum changes
@@ -51,18 +79,21 @@ export default function Assignment3() {
   return (
     <div className=" h-screen bg-[#F8F7F4] flex flex-col">
       <Title title={title} num={3}/>
-      <div className="flex gap-5 px-12 pt-5 h-[80%] min-h-[80%]"> 
-        <NavBar handleClick={handleClick} selectedNum={selectedNum}/>
+      <div className="flex gap-3 px-7 pt-5 h-[87%] min-h-[80%]"> 
+        <NavBar handleClick={handleClick} selectedNum={selectedNum} isCorrectArray={isCorrectArray} startedArray={startedArray}/>
         <Display 
           assignmentId={2}
           selectedNum={selectedNum} 
           selectedQuestion={selectedQuestion} 
+          selectedAnswer={selectedAnswer} 
           chat={chat}
           setChat={setChat}
           systemPrompt={systemPrompt}
           setSystemPrompt={setSystemPrompt} 
           saved={saved}
           setSaved={setSaved}
+          isCorrect = {isCorrect}
+          setIsCorrect={setIsCorrect}
         />
       </div>
     </div>
