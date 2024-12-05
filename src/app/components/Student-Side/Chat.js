@@ -105,8 +105,6 @@ export default function Chat({ assignmentId, selectedNum, selectedQuestion, chat
         setUserInput('')
         setLoading(true)
 
-<<<<<<< Updated upstream
-=======
         console.log("hi");
 
         /*
@@ -120,7 +118,6 @@ export default function Chat({ assignmentId, selectedNum, selectedQuestion, chat
         console.log(similarity);
         */
 
->>>>>>> Stashed changes
         const response = await fetch('/api/chat', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
