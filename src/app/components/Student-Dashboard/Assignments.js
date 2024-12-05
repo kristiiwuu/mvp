@@ -50,7 +50,7 @@ export default function Assignments() {
         <div className="w-[50%] h-auto text-[#80817B] text-3xl flex-grow">
             <div className="flex flex-col flex-wrap gap-5">
                 {assignments.map((assignment, index) => {
-                    const { title, dueDate, dueTime, submitted, startDate, startTime, endDate, endTime } = assignment;
+                    const { title, dueDate, dueTime, submitted, startDate, startTime, endDate, endTime, started } = assignment;
                     return <Assignment key={index} num={index + 1} title={title} dueDate={dueDate} dueTime={dueTime} startDate={startDate} startTime={startTime} endDate={endDate} endTime={endTime} submitted={submitted} started={started}
                     onClick={() => handleClick(title, dueDate, dueTime, startDate, startTime, endDate, endTime, submitted, started, index)}/>
                 })}
