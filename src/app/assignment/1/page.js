@@ -9,9 +9,22 @@ export default function Assignment1() {
   const title = "Symbiosis HW";
 
   const questions = {
-    1: "What does symbiosis mean in your own words? How is it different from other ways animals and plants interact? Can you give an example?",
+    1: "What does symbiosis mean in your own words? How is it different from other ways animals and plants interact?",
     2: "What is mutualism? How does the goby fish and snapping shrimp partnership show mutualism?",
-    3: "What is commensalism? Can you describe a situation where one animal benefits, but the other isn’t helped or harmed?",
+    3: "What is commensalism?",
+    4: "How is parasitism different from mutualism and commensalism? How does the African oxpecker act like both a helper and a parasite?",
+    5: "What do mitochondria do inside our cells? What might happen to living things if cells didn’t have mitochondria?",
+    6: "Corals and algae work together to help each other. What happens to coral reefs during coral bleaching, and why does it hurt this partnership?",
+    7: "How do cleaner fish help bigger fish? What do cleaner fish do to make sure they aren’t eaten by their clients?",
+    8: "Why is symbiosis like teamwork in nature? How do ants and fungi work together to survive?",
+    9: "How do bees and orchids help each other? What might happen to orchids if there were no bees?",
+    10: "How can changes in the environment, like pollution or warming oceans, affect partnerships like the one between coral and algae?"
+  };
+
+  const answers = {
+    1: "Symbiosis is a relationship between two different species where they live together and interact in a way that benefits at least one of them, and often both. This is different from other interactions like predation, where one species benefits at the expense of another, or competition, where species fight for resources.",
+    2: "Mutualism is a type of symbiotic relationship where both species involved benefit from the interaction. In mutualism, both organisms gain something that helps them survive or thrive. The partnership between the goby fish and snapping shrimp is a great example of mutualism. The shrimp digs and maintains a burrow for both of them, providing safety, while the goby fish keeps watch for predators. Both species benefit— the shrimp gets protection and the fish gets a safe place to live.",
+    3: "Commensalism is a type of relationship between two species where one species benefits, and the other is neither helped nor harmed. In this interaction, one organism gains something like food or shelter, while the other doesn't experience any significant effect.",
     4: "How is parasitism different from mutualism and commensalism? How does the African oxpecker act like both a helper and a parasite?",
     5: "What do mitochondria do inside our cells? What might happen to living things if cells didn’t have mitochondria?",
     6: "Corals and algae work together to help each other. What happens to coral reefs during coral bleaching, and why does it hurt this partnership?",
@@ -24,6 +37,7 @@ export default function Assignment1() {
   const [selectedNum, setSelectedNum] = useState(1);
   const [selectedQuestion, setSelectedQuestion] = useState(questions[1]);
   const [chat, setChat] = useState([]);
+  const [selectedAnswer, setSelectedAnswer] = useState(answers[1])
   const [systemPrompt, setSystemPrompt] = useState({
     role: "system",
     content: "You are a middle school teacher. You address your user as your student."
@@ -41,6 +55,7 @@ export default function Assignment1() {
       setChatHistory(prev => ({ ...prev, [selectedNum]: chat })); // save the current chat under key of selectedNum
       setSelectedNum(num);  // change selectedNum to the new question #
       setSelectedQuestion(questions[num]);
+      setSelectedAnswer(answers[num])
   }
 
   // Effect to restore chat when selectedNum changes
@@ -56,7 +71,8 @@ export default function Assignment1() {
         <Display 
           assignmentId={1}
           selectedNum={selectedNum} 
-          selectedQuestion={selectedQuestion} 
+          selectedQuestion={selectedQuestion}
+          selectedAnswer={selectedAnswer} 
           chat={chat}
           setChat={setChat}
           systemPrompt={systemPrompt}
