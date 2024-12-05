@@ -27,7 +27,7 @@ export default function StudentPortal() {
         const num = searchParams.get('num');
     
         return (
-            <div className=" w-auto bg-[#F8F7F4] h-screen flex flex-col pb-12 items-center gap-10">
+            <div className="w-auto bg-[#F8F7F4] h-screen flex flex-col pb-12 items-center gap-10">
                 <Header title={title}/>
                 <AssignmentCard 
                     title={title} 

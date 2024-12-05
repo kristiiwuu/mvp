@@ -49,13 +49,27 @@ export default function Assignment1() {
   });
   const [saved, setSaved] = useState(false);
   const [chatHistory, setChatHistory] = useState({}); // stores chat history for each question #
+  const [isCorrect, setIsCorrect] = useState(false);
+  const [isCorrectArray, setIsCorrectArray] = useState(Array(10).fill(false)); // Track correctness for each question
+  const [startedArray, setStartedArray] = useState(Array(10).fill(false)); // Track correctness for each question
+
 
   // clicking on question number
   const handleClick = (num) => {
       setChatHistory(prev => ({ ...prev, [selectedNum]: chat })); // save the current chat under key of selectedNum
       setSelectedNum(num);  // change selectedNum to the new question #
       setSelectedQuestion(questions[num]);
-      setSelectedAnswer(answers[num])
+      setSelectedAnswer(answers[num]);
+      setIsCorrectArray(prev => {
+          const newArray = [...prev];
+          newArray[num - 1] = isCorrect; // Update the correctness for the selected question
+          return newArray;
+      });
+      setStartedArray(prev => { // indicate user started the question
+        const newArray = [...prev];
+        newArray[num-1] = chat.length > 0;
+        return newArray;
+      })
   }
 
   // Effect to restore chat when selectedNum changes
@@ -64,10 +78,10 @@ export default function Assignment1() {
   }, [selectedNum]);
 
   return (
-    <div className="font-figtree h-screen bg-[#F8F7F4] flex flex-col">
+    <div className="h-screen bg-[#F8F7F4] flex flex-col">
       <Title title={title} num={1}/>
-      <div className="flex gap-5 px-12 pt-5 h-[80%] min-h-[80%]"> 
-        <NavBar handleClick={handleClick} selectedNum={selectedNum}/>
+      <div className="flex gap-3 px-7 pt-5 h-[87%] min-h-[80%]"> 
+        <NavBar handleClick={handleClick} selectedNum={selectedNum} isCorrectArray={isCorrectArray} startedArray={startedArray}/>
         <Display 
           assignmentId={1}
           selectedNum={selectedNum} 
@@ -79,6 +93,8 @@ export default function Assignment1() {
           setSystemPrompt={setSystemPrompt} 
           saved={saved}
           setSaved={setSaved}
+          isCorrect = {isCorrect}
+          setIsCorrect={setIsCorrect}
         />
       </div>
     </div>

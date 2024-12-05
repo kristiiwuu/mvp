@@ -21,10 +21,10 @@ const CustomAlert = ({ message, onClose }) => (
     </div>
 );
 
-export default function Chat({ assignmentId, selectedNum, selectedAnswer, selectedQuestion, chat, setChat, systemPrompt, setSystemPrompt, saved, setSaved }) {
+export default function Chat({ assignmentId, selectedNum, selectedAnswer, selectedQuestion, chat, setChat, systemPrompt, setSystemPrompt, saved, setSaved, isCorrect, setIsCorrect }) {
     const [userInput, setUserInput] = useState(''); 
     const [loading, setLoading] = useState(false);
-    const [isCorrect, setIsCorrect] = useState(false);
+    // const [isCorrect, setIsCorrect] = useState(false);
     const [showAlert, setShowAlert] = useState(false);
     const [alertMessage, setAlertMessage] = useState('');
     const [progress, setProgress] = useState(0);
@@ -143,6 +143,7 @@ export default function Chat({ assignmentId, selectedNum, selectedAnswer, select
         if (response.ok) {
           const result = await response.json();
           setChat(prev => [...prev, result.message]);
+          scrollToLastChat();
           if(result.message.content.includes("You're ready to move onto the next question!")) {
             setIsCorrect(true);
             setProgress(100); // Set to 100% when correct
@@ -167,9 +168,9 @@ export default function Chat({ assignmentId, selectedNum, selectedAnswer, select
         }
     }
     
-    useEffect(() => {
-      setSaved(false);
-    },[chat])
+    // useEffect(() => {
+    // //   setSaved(false);
+    // },[chat])
 
     // suggestion bubbles
     const suggestions = ["Can you give an example?", "Can you explain in a different way?", "I'm not sure", "Multiple choice question", "Fill in the blank question"];
@@ -179,7 +180,7 @@ export default function Chat({ assignmentId, selectedNum, selectedAnswer, select
         setUserInput('')
         setLoading(true)
 
-        console.log("hi there");
+        // console.log("hi there");
 
         const response = await fetch('/api/chat', {
           method: 'POST',
@@ -191,10 +192,9 @@ export default function Chat({ assignmentId, selectedNum, selectedAnswer, select
         const result = await response.json()
         setChat(prev => [...prev, result.message])
         }
-        setLoading(false);
-
-         
+        setLoading(false);    
     }
+
 
     // Reset progress when question changes
     useEffect(() => {
@@ -265,7 +265,7 @@ export default function Chat({ assignmentId, selectedNum, selectedAnswer, select
     return(
         <>
             {showAlert && <CustomAlert message={alertMessage} onClose={() => setShowAlert(false)} />}
-            <div className="text-black border-2 rounded-[12px] border-[#D7D7D7] bg-[#FFF] px-9 py-6 flex flex-col justify-between w-auto text-lg flex-grow overflow-hidden">
+            <div className="text-black border-2 rounded-[12px] border-[#D7D7D7] bg-[#FFF] px-6 py-4 flex flex-col justify-between w-auto text-lg flex-grow overflow-hidden">
                 <ProgressBar progress={progress} />
                 {/* chat */}
                 <div className="flex gap-6 overflow-y-auto max-h-auto flex-col">
@@ -281,8 +281,7 @@ export default function Chat({ assignmentId, selectedNum, selectedAnswer, select
                                             question={parsedMessage.question}
                                             choices={parsedMessage.choices}
                                             onSelect={(choice) => {
-                                                setUserInput(choice);
-                                                handleSendMessage();
+                                                handleUseSuggestion(choice);
                                             }}
                                         />
                                     );
@@ -326,23 +325,24 @@ export default function Chat({ assignmentId, selectedNum, selectedAnswer, select
                     })}
                 </div>
                 {/* user inputs*/}
-                <div className="flex flex-col gap-2 mt-5 p-0">
+                <div className="flex flex-col gap-2 mt-2 p-0">
                   {/* suggestion bubbles */}
-                  <div className="w-auto flex gap-2 flex-wrap">
+                  <div className="w-auto flex gap-2 flex-wrap mt-2">
                     {suggestions.map((text, index) => {
                       return <Suggestions key={index} text={text} onClick={() => handleUseSuggestion(text)} />
                     })}
                   </div>
                   {/* input bar */}
-                  <div className="flex gap-4">
+                  <div className="flex gap-2">
                     <input 
                         value={userInput} 
                         onChange={(e) => setUserInput(e.target.value)}
                         onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
+                        onPaste={(e) => e.preventDefault()}
                         placeholder="Type here or use the microphone" 
                         className="w-[80%] flex-grow border-2 rounded-[12px] p-2 border-[#D7D7D7]"
                     ></input>
-                    <button className={`${userInput.trim() ? 'bg-[#1F8FBF]' : 'bg-[#CDCDCD]'}  hover:bg-[#1F8FBF] rounded-[12px] w-[10%] px-5 py-3 text-white flex justify-center`} onClick={handleSendMessage} disabled={loading} type="submit">
+                    <button className={`${userInput.trim() ? 'bg-[#1F8FBF]' : 'bg-[#CDCDCD]'}  hover:bg-[#1F8FBF] rounded-[6px] w-[10%] px-5 py-3 text-white flex justify-center`} onClick={handleSendMessage} disabled={loading} type="submit">
                       <UpArrow/>
                     </button>
                     <button className={` ${(isCorrect || saved ) && chat.length > 0 ? 'bg-[#79d38d] hover:bg-[#79d38d]' : 'bg-[#CDCDCD] hover:bg-[#1F8FBF]'} rounded-[12px] w-[10%] px-5 py-3 text-white`} onClick={handleSaveChat} disabled={loading} type="submit">Submit</button>

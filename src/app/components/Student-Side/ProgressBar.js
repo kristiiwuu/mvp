@@ -5,10 +5,10 @@ export default function ProgressBar({ progress }) {
     const clampedProgress = Math.min(100, Math.max(0, progress));
     
     return (
-        <div className="w-full mt-2">
+        <div className="w-full mt-0">
             <div className="w-full h-2 bg-gray-200 rounded-full">
                 <div 
-                    className="h-full bg-[#1F8FBF] rounded-full transition-all duration-500 ease-out"
+                    className={`h-full rounded-full transition-all duration-500 ease-out ${clampedProgress > 80 ? 'bg-[#79d38d]' : 'bg-[#1F8FBF]'}`}
                     style={{ width: `${clampedProgress}%` }}
                 />
             </div>
