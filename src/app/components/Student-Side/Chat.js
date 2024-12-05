@@ -75,6 +75,7 @@ export default function Chat({ assignmentId, selectedNum, selectedAnswer, select
             Do not combine or infer correctness from prior responses from yourself or the user. Once the student’s answer is correct:
             1. Respond with "That's correct! You're ready to move onto the next question!"
             2. Stop responding unless further prompted.
+            
             `
          });
         setSaved(false);
@@ -203,13 +204,13 @@ export default function Chat({ assignmentId, selectedNum, selectedAnswer, select
                                         />
                                     );
                                 } else if (parsedMessage.type === 'fillblank') {
-                                  return (
-                                      <FillBlankCard
-                                          key={index}
-                                          ref={index === chat.length - 1 ? lastChatRef : null}
-                                          question={parsedMessage.question}
-                                      />
-                                  );
+                                    return (
+                                        <FillBlankCard
+                                            key={index}
+                                            ref={index === chat.length - 1 ? lastChatRef : null}
+                                            question={parsedMessage.question}
+                                        />
+                                    );
                                 }
                                 return (
                                     <TextBubble
