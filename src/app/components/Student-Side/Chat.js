@@ -18,7 +18,7 @@ const CustomAlert = ({ message, onClose }) => (
     </div>
 );
 
-export default function Chat({ assignmentId, selectedNum, selectedQuestion, chat, setChat, systemPrompt, setSystemPrompt, saved, setSaved }) {
+export default function Chat({ assignmentId, selectedNum, selectedAnswer, selectedQuestion, chat, setChat, systemPrompt, setSystemPrompt, saved, setSaved }) {
     const [userInput, setUserInput] = useState(''); 
     const [loading, setLoading] = useState(false);
     const [isCorrect, setIsCorrect] = useState(false);
@@ -76,6 +76,8 @@ export default function Chat({ assignmentId, selectedNum, selectedQuestion, chat
             1. Respond with "That's correct! You're ready to move onto the next question!"
             2. Stop responding unless further prompted.
             
+            Assign every response the user gives with a number from 0 to 100, with 0 being very far from the answer to the question, and 100 being the exact answer to the question.
+            Put this number in the beginning of your response.
             `
          });
         setSaved(false);
@@ -100,14 +102,14 @@ export default function Chat({ assignmentId, selectedNum, selectedQuestion, chat
     // Send message to duey
     const handleSendMessage = async () => {
         if (!userInput.trim()) return
-
+        // run similarity
         setChat(prev => [...prev, { role: 'user', content: userInput }])
         setUserInput('')
         setLoading(true)
 
+        /*
         console.log("hi");
 
-        /*
         const similarity = await fetch('/api/similarity', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -116,6 +118,7 @@ export default function Chat({ assignmentId, selectedNum, selectedQuestion, chat
 
         console.log(similarity.json());
         console.log(similarity);
+
         */
 
         const response = await fetch('/api/chat', {
@@ -162,6 +165,8 @@ export default function Chat({ assignmentId, selectedNum, selectedQuestion, chat
         setUserInput('')
         setLoading(true)
 
+        console.log("hi there");
+
         const response = await fetch('/api/chat', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -173,6 +178,8 @@ export default function Chat({ assignmentId, selectedNum, selectedQuestion, chat
         setChat(prev => [...prev, result.message])
         }
         setLoading(false);
+
+         
     }
 
     return(
@@ -256,7 +263,7 @@ export default function Chat({ assignmentId, selectedNum, selectedQuestion, chat
                         value={userInput} 
                         onChange={(e) => setUserInput(e.target.value)}
                         onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
-                        onPaste={(e) => e.preventDefault()}
+                        // onPaste={(e) => e.preventDefault()}
                         placeholder="Type here" 
                         className="w-[80%] flex-grow border-2 rounded-[12px] p-2 border-[#D7D7D7]"
                     ></input>
