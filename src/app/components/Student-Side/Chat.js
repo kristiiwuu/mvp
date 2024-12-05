@@ -7,6 +7,8 @@ import UpArrow from 'public/up-arrow.svg';
 import MCQCard from './MCQCard';
 import FillBlankCard from './FillBlankCard';
 import ProgressBar from './ProgressBar';
+import MicIcon from 'public/mic-icon.svg';
+import MicActiveIcon from 'public/mic-active.svg';
 
 // Custom alert component
 const CustomAlert = ({ message, onClose }) => (
@@ -26,6 +28,10 @@ export default function Chat({ assignmentId, selectedNum, selectedAnswer, select
     const [showAlert, setShowAlert] = useState(false);
     const [alertMessage, setAlertMessage] = useState('');
     const [progress, setProgress] = useState(0);
+    const [isRecording, setIsRecording] = useState(false);
+    const [mediaRecorder, setMediaRecorder] = useState(null);
+    const [isListening, setIsListening] = useState(false);
+    const [recognition, setRecognition] = useState(null);
     
     // Update system prompt if user selects a different question
     useEffect(() => {
@@ -195,6 +201,67 @@ export default function Chat({ assignmentId, selectedNum, selectedAnswer, select
         setProgress(0);
     }, [selectedNum, selectedQuestion]);
 
+    useEffect(() => {
+        if (typeof window !== 'undefined' && navigator.mediaDevices) {
+            navigator.mediaDevices.getUserMedia({ audio: true })
+                .then(stream => {
+                    const recorder = new MediaRecorder(stream);
+                    setMediaRecorder(recorder);
+                })
+                .catch(error => console.error('Error accessing microphone:', error));
+        }
+    }, []);
+
+    const handleRecord = () => {
+        if (!mediaRecorder) return;
+
+        if (isRecording) {
+            console.log('Stopping recording...'); // Debug log
+            mediaRecorder.stop();
+            setIsRecording(false);
+        } else {
+            console.log('Starting recording...'); // Debug log
+            const audioChunks = [];
+            mediaRecorder.ondataavailable = event => {
+                console.log('Audio chunk received'); // Debug log
+                audioChunks.push(event.data);
+            };
+            
+            mediaRecorder.onstop = async () => {
+                console.log('Processing audio...'); // Debug log
+                const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                const formData = new FormData();
+                formData.append('audio', audioBlob);
+
+                try {
+                    console.log('Sending audio to Whisper API...'); // Debug log
+                    const response = await fetch('/api/whisper/transcribe', {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    if (!response.ok) {
+                        const errorText = await response.text();
+                        console.error('API Error:', errorText);
+                        throw new Error(`API request failed: ${errorText}`);
+                    }
+
+                    const { text } = await response.json();
+                    console.log('Transcribed text:', text); // Debug log
+                    setUserInput(text);
+                } catch (error) {
+                    console.error('Error transcribing audio:', error);
+                    // Optionally show an error message to the user
+                    setAlertMessage('Failed to transcribe audio. Please try again.');
+                    setShowAlert(true);
+                }
+            };
+
+            mediaRecorder.start();
+            setIsRecording(true);
+        }
+    };
+
     return(
         <>
             {showAlert && <CustomAlert message={alertMessage} onClose={() => setShowAlert(false)} />}
@@ -272,14 +339,21 @@ export default function Chat({ assignmentId, selectedNum, selectedAnswer, select
                         value={userInput} 
                         onChange={(e) => setUserInput(e.target.value)}
                         onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
-                        // onPaste={(e) => e.preventDefault()}
-                        placeholder="Type here" 
+                        placeholder="Type here or use the microphone" 
                         className="w-[80%] flex-grow border-2 rounded-[12px] p-2 border-[#D7D7D7]"
                     ></input>
                     <button className={`${userInput.trim() ? 'bg-[#1F8FBF]' : 'bg-[#CDCDCD]'}  hover:bg-[#1F8FBF] rounded-[12px] w-[10%] px-5 py-3 text-white flex justify-center`} onClick={handleSendMessage} disabled={loading} type="submit">
                       <UpArrow/>
                     </button>
                     <button className={` ${(isCorrect || saved ) && chat.length > 0 ? 'bg-[#79d38d] hover:bg-[#79d38d]' : 'bg-[#CDCDCD] hover:bg-[#1F8FBF]'} rounded-[12px] w-[10%] px-5 py-3 text-white`} onClick={handleSaveChat} disabled={loading} type="submit">Submit</button>
+                    <button 
+                        onClick={handleRecord}
+                        className={`rounded-[12px] w-[10%] px-5 py-3 text-white flex justify-center items-center
+                            ${isRecording ? 'bg-red-500 hover:bg-red-600' : 'bg-[#1F8FBF] hover:bg-[#58B6DF]'}`}
+                        type="button"
+                    >
+                        {isRecording ? 'Stop' : 'Record'}
+                    </button>
                   </div>
                 </div>
             </div>
