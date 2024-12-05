@@ -8,7 +8,7 @@ export default function Header({title}) {
     }
    
     return(
-        <div className="bg-[#1F8FBF] w-screen h-[15%] text-3xl flex text-center items-center p-5 text-white cursor-default">
+        <div className="font-semibold bg-[#1F8FBF] w-screen h-[15%] text-3xl flex text-center items-center p-5 text-white cursor-default">
             <div className="ml-4 flex justify-center items-center gap-5">
                 <div onClick={handleReturnHome} className="cursor-pointer">BIOLOGY</div>
                 <RightArrow />

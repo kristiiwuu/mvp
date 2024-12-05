@@ -5,7 +5,7 @@ export default function Assignment({num, title, dueDate, dueTime, submitted, onC
     return(
         <div className="bg-white flex justify-between px-7 py-6 rounded-[6px] shadow-custom border border-[#B8B7AF] hover:shadow-[#1F8FBF] hover:border-[#1F8FBF] group" onClick={onClick}>
             <div className=" text-black w-auto flex flex-col justify-center">
-                <div className="text-3xl group-hover:underline">
+                <div className="font-semibold text-3xl group-hover:underline">
                     {title}
                 </div>
                 <div className="text-xl text-[#B1B1B1] group-hover:no-underline">

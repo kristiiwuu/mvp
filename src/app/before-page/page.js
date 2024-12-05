@@ -23,10 +23,11 @@ export default function StudentPortal() {
         const endDate = searchParams.get('endDate');
         const endTime = searchParams.get('endTime');
         const submitted = searchParams.get('submitted') === "true";
+        const started = searchParams.get('started') === "true";
         const num = searchParams.get('num');
     
         return (
-            <div className="font-orienta w-auto bg-[#F8F7F4] h-screen flex flex-col pb-12 items-center gap-10">
+            <div className=" w-auto bg-[#F8F7F4] h-screen flex flex-col pb-12 items-center gap-10">
                 <Header title={title}/>
                 <AssignmentCard 
                     title={title} 
@@ -37,6 +38,7 @@ export default function StudentPortal() {
                     endDate={endDate} 
                     endTime={endTime} 
                     submitted={submitted} 
+                    started={started}
                     num={num}
                 />
             </div>
@@ -45,7 +47,7 @@ export default function StudentPortal() {
 
     // return(
     //     <React.Suspense fallback={<div>Loading...</div>}>
-    //         <div className="font-orienta w-auto bg-[#F8F7F4] h-screen flex flex-col pb-12 items-center gap-10">
+    //         <div className="w-auto bg-[#F8F7F4] h-screen flex flex-col pb-12 items-center gap-10">
     //             <Header title={title}/>
     //             <AssignmentCard 
     //                 title={title} 

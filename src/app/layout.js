@@ -1,21 +1,16 @@
 import localFont from "next/font/local";
 import "./globals.css";
+import { Figtree } from 'next/font/google'
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
-});
+// const orienta = localFont({
+//   src: "./fonts/Orienta-Regular.ttf",
+//   variable: "--font-orienta",
+//   weight: "100 900",
+// })
 
-const orienta = localFont({
-  src: "./fonts/Orienta-Regular.ttf",
-  variable: "--font-orienta",
-  weight: "100 900",
+const figtree = Figtree({ 
+  subsets: ['latin'],
+  variable: '--font-figtree'
 })
 
 export const metadata = {
@@ -31,7 +26,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <title>Due</title>
       <body
-        className={`${orienta.variable} ${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${figtree.variable} font-sans`}
       >
         {children}
       </body>
