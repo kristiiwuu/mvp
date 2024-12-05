@@ -2,12 +2,12 @@
 import React from 'react';
 import Header from '../components/Before-Page/Header';
 import HappyDuey from 'public/happy-duey.svg';
-// import { redirect } from 'next/navigation'
+import { redirect } from 'next/navigation'
 
 export default function StudentPortal() {
 
     const handleClick = () => {
-        // redirect('/student-portal')
+        redirect('/student-portal')
     }
  
     return (
