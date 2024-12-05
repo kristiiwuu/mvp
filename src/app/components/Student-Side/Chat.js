@@ -4,6 +4,8 @@ import TextBubble from './TextBubble';
 import Suggestions from './Suggestions';
 import BlueDuey from 'public/blue-duey.svg';
 import UpArrow from 'public/up-arrow.svg';
+import MCQCard from './MCQCard';
+import FillBlankCard from './FillBlankCard';
 
 // Custom alert component
 const CustomAlert = ({ message, onClose }) => (
@@ -37,10 +39,33 @@ export default function Chat({ assignmentId, selectedNum, selectedAnswer, select
             Case 2: The student appears to be going in circles, repeating their answers without reaching the final answer, and asking "I'm not sure" or "I don't know" more than 3 times in a row. In this case:
             1. You may provide ONE hint—no more.
 
+            Sometimes, provide fill-in-the-blank or multiple-choice questions to guide the student. When you want to ask a multiple-choice question, format your response as JSON with the following structure:
+            {
+                "type": "mcq",
+                "question": "Your guiding question here",
+                "choices": ["Choice 1", "Choice 2", "Choice 3", "Choice 4"]
+            }
+
+            For fill-in-the-blank questions:
+            {
+              "type": "fillblank",
+              "question": "Complete this statement: The process of photosynthesis converts sunlight into _______.",
+              "answer": "energy"
+            }
+
+            For regular responses, use:
+            {
+                "type": "text",
+                "content": "Your regular response here"
+            }
+
             Case 3: The student works with you to achieve the correct answer, but hasn't come too close to the real answer yet..
             1. Keep asking the user questions until they get almost near the correct answer.
 
-            Case 4: The user might have learned the correct answer.
+            Case 4: The user asks a question completely unrelated to the question they should be trying to answer.
+            1. Redirect their attention to the question you have been system prompted with. DO NOT UNDER ANY CIRCUMSTRANCES stray to topics that are different from the question they should be trying to answer.
+
+            Case 5: The user might have learned the correct answer.
             Once you feel that the user is nearing the answer, ask them the original question again.
 
             Only validate the student’s answer as correct if:
@@ -82,6 +107,8 @@ export default function Chat({ assignmentId, selectedNum, selectedAnswer, select
         setUserInput('')
         setLoading(true)
 
+
+        /*
         console.log("hi");
 
         const similarity = await fetch('/api/similarity', {
@@ -92,6 +119,8 @@ export default function Chat({ assignmentId, selectedNum, selectedAnswer, select
 
         console.log(similarity.json());
         console.log(similarity);
+
+        */
 
         const response = await fetch('/api/chat', {
           method: 'POST',
@@ -130,7 +159,7 @@ export default function Chat({ assignmentId, selectedNum, selectedAnswer, select
     },[chat])
 
     // suggestion bubbles
-    const suggestions = ["Can you give an example?", "Can you explain in a different way?", "I'm not sure"];
+    const suggestions = ["Can you give an example?", "Can you explain in a different way?", "I'm not sure", "Multiple choice question", "Fill in the blank question"];
 
     const handleUseSuggestion = async (text) => {
         setChat(prev => [...prev, { role: 'user', content: text }])
@@ -161,7 +190,64 @@ export default function Chat({ assignmentId, selectedNum, selectedAnswer, select
                 {/* chat */}
                 <div className="flex gap-6 overflow-y-auto max-h-auto flex-col">
                     {chat.map((message, index) => {
-                      return <TextBubble ref={index == chat.length - 1 ? lastChatRef : null} key={index} message={message} isCorrect={isCorrect}/>;
+                        if (message.role === 'assistant') {
+                            try {
+                                const parsedMessage = JSON.parse(message.content);
+                                if (parsedMessage.type === 'mcq') {
+                                    return (
+                                        <MCQCard
+                                            key={index}
+                                            ref={index === chat.length - 1 ? lastChatRef : null}
+                                            question={parsedMessage.question}
+                                            choices={parsedMessage.choices}
+                                            onSelect={(choice) => {
+                                                setUserInput(choice);
+                                                handleSendMessage();
+                                            }}
+                                        />
+                                    );
+                                } else if (parsedMessage.type === 'fillblank') {
+                                    return (
+                                        <FillBlankCard
+                                            key={index}
+                                            ref={index === chat.length - 1 ? lastChatRef : null}
+                                            question={parsedMessage.question}
+                                            answer={parsedMessage.answer}
+                                            onSubmit={(answer) => {
+                                                setUserInput(answer);
+                                                handleSendMessage();
+                                            }}
+                                        />
+                                    );
+                                }
+                                return (
+                                    <TextBubble
+                                        ref={index === chat.length - 1 ? lastChatRef : null}
+                                        key={index}
+                                        message={{ ...message, content: parsedMessage.content }}
+                                        isCorrect={isCorrect}
+                                    />
+                                );
+                            } catch (e) {
+                                // Fallback for non-JSON responses
+                                return (
+                                    <TextBubble
+                                        ref={index === chat.length - 1 ? lastChatRef : null}
+                                        key={index}
+                                        message={message}
+                                        isCorrect={isCorrect}
+                                    />
+                                );
+                            }
+                        }
+                        return (
+                            <TextBubble
+                                ref={index === chat.length - 1 ? lastChatRef : null}
+                                key={index}
+                                message={message}
+                                isCorrect={isCorrect}
+                            />
+                        );
                     })}
                 </div>
                 {/* user inputs*/}
