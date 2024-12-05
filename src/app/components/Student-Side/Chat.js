@@ -107,7 +107,6 @@ export default function Chat({ assignmentId, selectedNum, selectedAnswer, select
         setUserInput('')
         setLoading(true)
 
-
         /*
         console.log("hi");
 
