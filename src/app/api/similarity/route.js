@@ -1,55 +1,45 @@
 'use server';
-import OpenAI from 'openai';
+import { OpenAI } from 'openai';
+import { NextResponse } from 'next/server';
 
 const openai = new OpenAI({
-    apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
+    apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY
 });
 
-function cosinesim(A, B) {
-    var dotproduct = 0;
-    var mA = 0;
-    var mB = 0;
+export async function POST(req) {
+    try {
+        const { selected_answer, user_input } = await req.json();
 
-    for(var i = 0; i < A.length; i++) {
-        dotproduct += A[i] * B[i];
-        mA += A[i] * A[i];
-        mB += B[i] * B[i];
+        // Get embeddings for both texts
+        const [answerEmbedding, userEmbedding] = await Promise.all([
+            openai.embeddings.create({
+                model: "text-embedding-3-small",
+                input: selected_answer,
+                encoding_format: "float",
+            }),
+            openai.embeddings.create({
+                model: "text-embedding-3-small",
+                input: user_input,
+                encoding_format: "float",
+            })
+        ]);
+
+        // Calculate cosine similarity
+        const similarity = calculateCosineSimilarity(
+            answerEmbedding.data[0].embedding,
+            userEmbedding.data[0].embedding
+        );
+
+        return NextResponse.json({ similarity });
+    } catch (error) {
+        console.error('Similarity calculation error:', error);
+        return NextResponse.json({ error: 'Error calculating similarity' }, { status: 500 });
     }
-
-    mA = Math.sqrt(mA);
-    mB = Math.sqrt(mB);
-    var similarity = dotproduct / (mA * mB);
-
-    return similarity;
 }
 
-export async function POST(req, res) {
-
-    const { selected_answer, user_input } = await req.json();
-    // const { selected_answer } = await req.json();
-
-    console.log(user_input)
-    console.log(selected_answer);
-
-    // return new Response(null, { status: 200 });
-
-    const user_input_embedding = await openai.embeddings.create({
-        model: "text-embedding-3-small",
-        input: user_input,
-        encoding_format: "float",
-    });
-
-    const answer_embedding = await openai.embeddings.create({
-        model: "text-embedding-3-small",
-        input: selected_answer,
-        encoding_format: "float",
-    });
-
-    console.log(user_input_embedding)
-    console.log(answer_embedding)
-
-    const number = cosinesim(user_input_embedding.data[0].embedding, answer_embedding.data[0].embedding)
-    console.log("cosinesim " + number)
-    // similarity = cosinesim(user_input_embedding, answer_embedding);
-    return new Response();
+function calculateCosineSimilarity(vec1, vec2) {
+    const dotProduct = vec1.reduce((acc, val, i) => acc + val * vec2[i], 0);
+    const mag1 = Math.sqrt(vec1.reduce((acc, val) => acc + val * val, 0));
+    const mag2 = Math.sqrt(vec2.reduce((acc, val) => acc + val * val, 0));
+    return dotProduct / (mag1 * mag2);
 }
