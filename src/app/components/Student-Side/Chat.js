@@ -76,8 +76,6 @@ export default function Chat({ assignmentId, selectedNum, selectedAnswer, select
             1. Respond with "That's correct! You're ready to move onto the next question!"
             2. Stop responding unless further prompted.
             
-            Assign every response the user gives with a number from 0 to 100, with 0 being very far from the answer to the question, and 100 being the exact answer to the question.
-            Put this number in the beginning of your response.
             `
          });
         setSaved(false);
@@ -211,11 +209,6 @@ export default function Chat({ assignmentId, selectedNum, selectedAnswer, select
                                             key={index}
                                             ref={index === chat.length - 1 ? lastChatRef : null}
                                             question={parsedMessage.question}
-                                            answer={parsedMessage.answer}
-                                            onSubmit={(answer) => {
-                                                setUserInput(answer);
-                                                handleSendMessage();
-                                            }}
                                         />
                                     );
                                 }
