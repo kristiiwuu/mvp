@@ -6,6 +6,7 @@ import BlueDuey from 'public/blue-duey.svg';
 import UpArrow from 'public/up-arrow.svg';
 import MCQCard from './MCQCard';
 import FillBlankCard from './FillBlankCard';
+import ProgressBar from './ProgressBar';
 
 // Custom alert component
 const CustomAlert = ({ message, onClose }) => (
@@ -24,6 +25,7 @@ export default function Chat({ assignmentId, selectedNum, selectedAnswer, select
     const [isCorrect, setIsCorrect] = useState(false);
     const [showAlert, setShowAlert] = useState(false);
     const [alertMessage, setAlertMessage] = useState('');
+    const [progress, setProgress] = useState(0);
     
     // Update system prompt if user selects a different question
     useEffect(() => {
@@ -105,19 +107,26 @@ export default function Chat({ assignmentId, selectedNum, selectedAnswer, select
         setUserInput('')
         setLoading(true)
 
-        /*
-        console.log("hi");
+        // Check similarity with correct answer
+        try {
+            const similarityResponse = await fetch('/api/similarity', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    selected_answer: selectedAnswer,
+                    user_input: userInput
+                })
+            });
 
-        const similarity = await fetch('/api/similarity', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({selected_answer: selectedAnswer, user_input: userInput})
-        });
-
-        console.log(similarity.json());
-        console.log(similarity);
-
-        */
+            if (similarityResponse.ok) {
+                const { similarity } = await similarityResponse.json();
+                // Convert similarity score to percentage and keep the higher value
+                const progressPercentage = similarity * 100;
+                setProgress(prevProgress => Math.max(prevProgress, progressPercentage));
+            }
+        } catch (error) {
+            console.error('Error checking similarity:', error);
+        }
 
         const response = await fetch('/api/chat', {
           method: 'POST',
@@ -130,6 +139,7 @@ export default function Chat({ assignmentId, selectedNum, selectedAnswer, select
           setChat(prev => [...prev, result.message]);
           if(result.message.content.includes("You're ready to move onto the next question!")) {
             setIsCorrect(true);
+            setProgress(100); // Set to 100% when correct
           }
         }
         setLoading(false);
@@ -180,10 +190,16 @@ export default function Chat({ assignmentId, selectedNum, selectedAnswer, select
          
     }
 
+    // Reset progress when question changes
+    useEffect(() => {
+        setProgress(0);
+    }, [selectedNum, selectedQuestion]);
+
     return(
         <>
             {showAlert && <CustomAlert message={alertMessage} onClose={() => setShowAlert(false)} />}
             <div className="text-black border-2 rounded-[12px] border-[#D7D7D7] bg-[#FFF] px-9 py-6 flex flex-col justify-between w-auto text-lg flex-grow overflow-hidden">
+                <ProgressBar progress={progress} />
                 {/* chat */}
                 <div className="flex gap-6 overflow-y-auto max-h-auto flex-col">
                     {chat.map((message, index) => {
