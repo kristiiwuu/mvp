@@ -67,10 +67,27 @@ function _PopulatedAssignment() {
     }
   }, [selectedNum, questions, answers]);
 
+  const [isCorrect, setIsCorrect] = useState(false);
+  const [isCorrectArray, setIsCorrectArray] = useState(Array(10).fill(false)); // Track correctness for each question
+  const [startedArray, setStartedArray] = useState(Array(10).fill(false)); // Track correctness for each question
+
   const handleClick = (num) => {
-    setChatHistory((prev) => ({ ...prev, [selectedNum]: chat }));
-    setSelectedNum(num);
-  };
+    setChatHistory(prev => ({ ...prev, [selectedNum]: chat })); // save the current chat under key of selectedNum
+      setSelectedNum(num);  // change selectedNum to the new question #
+      setSelectedQuestion(questions[num]);
+      setSelectedAnswer(answers[num]);
+      const previousNum = selectedNum; // Store the previous selected number
+      setIsCorrectArray(prev => {
+          const newArray = [...prev];
+          newArray[previousNum - 1] = isCorrect; // Update the correctness for the previously selected question
+          return newArray;
+      });
+      setStartedArray(prev => { // indicate user started the question
+        const newArray = [...prev];
+        newArray[previousNum - 1] = chat.length > 0; // Update the started status for the previously selected question
+        return newArray;
+      })
+  }
 
   useEffect(() => {
     setChat(chatHistory[selectedNum] || []);
@@ -80,18 +97,20 @@ function _PopulatedAssignment() {
     <div className="font-figtree h-screen bg-[#F8F7F4] flex flex-col">
       <Title title={title} num={4} />
       <div className="flex gap-5 px-12 pt-5 h-[80%] min-h-[80%]">
-        <NavBar handleClick={handleClick} selectedNum={selectedNum} />
-        <Display
-          assignmentId={4}
-          selectedNum={selectedNum}
-          selectedQuestion={selectedQuestion}
-          selectedAnswer={selectedAnswer}
+      <NavBar handleClick={handleClick} selectedNum={selectedNum} isCorrectArray={isCorrectArray} startedArray={startedArray}/>
+      <Display 
+          assignmentId={2}
+          selectedNum={selectedNum} 
+          selectedQuestion={selectedQuestion} 
+          selectedAnswer={selectedAnswer} 
           chat={chat}
           setChat={setChat}
           systemPrompt={systemPrompt}
-          setSystemPrompt={setSystemPrompt}
+          setSystemPrompt={setSystemPrompt} 
           saved={saved}
           setSaved={setSaved}
+          isCorrect = {isCorrect}
+          setIsCorrect={setIsCorrect}
         />
       </div>
     </div>
