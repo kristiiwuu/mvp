@@ -47,7 +47,7 @@ export default function LoginPage() {
             <div className="flex flex-col h-[200px]">
               <label htmlFor="name" className="text-[70%]">Name:</label>
               <input
-                className="px-2 py-3 bg-[#EBEAE6] rounded-[6px] h-[12%]"
+                className="px-2 py-3 bg-[#EBEAE6] rounded-[6px] h-[12%] text-black"
                 id="name"
                 name="name"
                 type="text"
@@ -55,7 +55,7 @@ export default function LoginPage() {
               />
               <label htmlFor="email" className="mt-3 text-[70%]">Email:</label>
               <input
-                className="px-2 py-3 bg-[#EBEAE6] rounded-[6px] h-[12%]"
+                className="px-2 py-3 bg-[#EBEAE6] rounded-[6px] h-[12%] text-black"
                 id="email"
                 name="email"
                 type="email"
@@ -63,7 +63,7 @@ export default function LoginPage() {
               />
               <label className="mt-3 text-[70%]" htmlFor="password">Password:</label>
               <input
-                className="px-2 py-3 bg-[#EBEAE6] rounded-[6px] h-[12%]"
+                className="px-2 py-3 bg-[#EBEAE6] rounded-[6px] h-[12%] text-black"
                 id="password"
                 name="password"
                 type="password"
