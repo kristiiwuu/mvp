@@ -8,10 +8,9 @@ import Title from "../../components/Student-Side/Title";
 import { useRouter, useSearchParams } from "next/navigation";
 
 export default function PopulatedAssignment() {
-  const title = "ESG and Corporate Responsibility HW";
-
   const searchParams = useSearchParams();
   const loadedQuestions = searchParams.get("questions");
+  const title = searchParams.get("title");
 
   const [questions, setQuestions] = useState({});
   const [answers, setAnswers] = useState({});
@@ -19,7 +18,7 @@ export default function PopulatedAssignment() {
   useEffect(() => {
     try {
       // Parse the query parameter into JSON
-      const parsedQuestions = JSON.parse(loadedQuestions).questions;
+      const parsedQuestions = JSON.parse(loadedQuestions);
 
       const questionObj = {};
       const answerObj = {};

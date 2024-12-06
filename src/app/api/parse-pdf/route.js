@@ -44,14 +44,14 @@ export async function POST(request) {
       model: "gpt-4o-mini",
       messages: [{ role: "system", content: promptTemplate }],
       response_format: zodResponseFormat(
-        z.object({ questions: questionsArraySchema }),
-        "questions"
+        z.object({ title: z.string(), questions: questionsArraySchema }),
+        "output"
       ),
     });
 
-    const questions = completion.choices[0].message.parsed;
+    const output = completion.choices[0].message.parsed;
 
-    return NextResponse.json({ questions });
+    return NextResponse.json({ output });
   } catch (error) {
     console.error("PDF parsing error:", error);
     return NextResponse.json(

@@ -36,11 +36,11 @@ export default function PDFUpload() {
         throw new Error("Failed to upload PDF");
       }
 
-      const data = await response.json();
-      console.log("Generated questions:", data.questions);
+      const data = await response.json().then(v => v.output);
 
       // Encode questions into query parameters
       const queryParams = new URLSearchParams({
+        title: JSON.stringify(data.title),
         questions: JSON.stringify(data.questions),
       }).toString();
 
