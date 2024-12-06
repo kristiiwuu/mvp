@@ -1,13 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import "src/app/globals.css";
 import NavBar from "../../components/Student-Side/NavBar";
 import Display from "../../components/Student-Side/Display";
 import Title from "../../components/Student-Side/Title";
 import { useRouter, useSearchParams } from "next/navigation";
 
-export default function PopulatedAssignment() {
+function _PopulatedAssignment() {
   const searchParams = useSearchParams();
   const loadedQuestions = searchParams.get("questions");
   const title = searchParams.get("title");
@@ -96,4 +96,11 @@ export default function PopulatedAssignment() {
       </div>
     </div>
   );
+}
+
+
+export default function PopulatedAssignment(){
+  return <Suspense>
+    <_PopulatedAssignment />
+  </Suspense>
 }
