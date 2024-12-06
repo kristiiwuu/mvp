@@ -60,14 +60,15 @@ export default function Assignment1() {
       setSelectedNum(num);  // change selectedNum to the new question #
       setSelectedQuestion(questions[num]);
       setSelectedAnswer(answers[num]);
+      const previousNum = selectedNum; // Store the previous selected number
       setIsCorrectArray(prev => {
           const newArray = [...prev];
-          newArray[num - 1] = isCorrect; // Update the correctness for the selected question
+          newArray[previousNum - 1] = isCorrect; // Update the correctness for the previously selected question
           return newArray;
       });
       setStartedArray(prev => { // indicate user started the question
         const newArray = [...prev];
-        newArray[num-1] = chat.length > 0;
+        newArray[previousNum - 1] = chat.length > 0; // Update the started status for the previously selected question
         return newArray;
       })
   }

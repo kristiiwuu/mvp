@@ -9,6 +9,9 @@ import FillBlankCard from './FillBlankCard';
 import ProgressBar from './ProgressBar';
 import MicIcon from 'public/mic-icon.svg';
 import MicActiveIcon from 'public/mic-active.svg';
+import Image from 'next/image'
+import RecGif from 'public/rec.gif';
+import ActiveMic from 'public/activemic.gif'
 
 // Custom alert component
 const CustomAlert = ({ message, onClose }) => (
@@ -348,11 +351,11 @@ export default function Chat({ assignmentId, selectedNum, selectedAnswer, select
                     <button className={` ${(isCorrect || saved ) && chat.length > 0 ? 'bg-[#79d38d] hover:bg-[#79d38d]' : 'bg-[#CDCDCD] hover:bg-[#1F8FBF]'} rounded-[12px] w-[10%] px-5 py-3 text-white`} onClick={handleSaveChat} disabled={loading} type="submit">Submit</button>
                     <button 
                         onClick={handleRecord}
-                        className={`rounded-[12px] w-[10%] px-5 py-3 text-white flex justify-center items-center
-                            ${isRecording ? 'bg-red-500 hover:bg-red-600' : 'bg-[#1F8FBF] hover:bg-[#58B6DF]'}`}
+                        className={`relative rounded-[12px] w-[10%] px-5 py-3 text-white flex justify-center items-center
+                            ${isRecording ? 'bg-transparent border hover:border-[#1F8FBF]' : 'bg-[#1F8FBF] hover:bg-[#58B6DF]'}`}
                         type="button"
                     >
-                        {isRecording ? 'Stop' : 'Record'}
+                        {isRecording ? <Image src={ActiveMic} alt='' width="10%" height="10%" className="object-cover absolute scale-[0.30]" /> : <MicActiveIcon className="p-0 m-0 fill-white h-[50%] w-[50%] absolute"/>}
                     </button>
                   </div>
                 </div>
