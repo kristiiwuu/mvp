@@ -1,7 +1,13 @@
 import PlusSign from 'public/plus.svg'
 import Task from './Task'
+import { useRouter } from 'next/navigation'
 
 export default function ProblemSpace() {
+    const router = useRouter();
+
+    const handleGenerateHomework = () => {
+        router.push('/pdf-parser');
+      };
 
 
     const assignments= [{
@@ -31,7 +37,8 @@ export default function ProblemSpace() {
 
     return(
         <div className="min-h-screen w-[70%] text-black border-2 rounded-[6px] bg-[#FFF] border-[#D7D7D7] px-9 py-6 flex flex-col max-h-screen gap-5">
-            <button className="text flex justify-center items-center gap-2 px-6 py-4 hover:bg-[#58B6DF] bg-[#1F8FBF] text-white w-[150px] h-[9%] rounded-[6px]">
+            <button className="text flex justify-center items-center gap-2 px-6 py-4 hover:bg-[#58B6DF] bg-[#1F8FBF] text-white w-[150px] h-[9%] rounded-[6px]"
+            onClick={handleGenerateHomework}>
                 <PlusSign />
                 New
             </button>

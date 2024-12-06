@@ -61,11 +61,11 @@ export default function Assignment1() {
       setSelectedQuestion(questions[num]);
       setSelectedAnswer(answers[num]);
       const previousNum = selectedNum; // Store the previous selected number
-      setIsCorrectArray(prev => {
-          const newArray = [...prev];
-          newArray[previousNum - 1] = isCorrect; // Update the correctness for the previously selected question
-          return newArray;
-      });
+      // setIsCorrectArray(prev => {
+      //     const newArray = [...prev];
+      //     newArray[previousNum - 1] = isCorrect; // Update the correctness for the previously selected question
+      //     return newArray;
+      // });
       setStartedArray(prev => { // indicate user started the question
         const newArray = [...prev];
         newArray[previousNum - 1] = chat.length > 0; // Update the started status for the previously selected question
@@ -81,7 +81,7 @@ export default function Assignment1() {
   return (
     <div className="h-screen bg-[#F8F7F4] flex flex-col">
       <Title title={title} num={1}/>
-      <div className="flex gap-3 px-7 pt-5 h-[87%] min-h-[80%]"> 
+      <div className="flex gap-3 px-7 pt-5 h-[87%] min-h-[80%] mb-4"> 
         <NavBar handleClick={handleClick} selectedNum={selectedNum} isCorrectArray={isCorrectArray} startedArray={startedArray}/>
         <Display 
           assignmentId={1}
@@ -95,8 +95,9 @@ export default function Assignment1() {
           saved={saved}
           setSaved={setSaved}
           isCorrect = {isCorrect}
-          isCorrectArray={isCorrectArray}
           setIsCorrect={setIsCorrect}
+          isCorrectArray={isCorrectArray}
+          setIsCorrectArray={setIsCorrectArray}
         />
       </div>
     </div>
