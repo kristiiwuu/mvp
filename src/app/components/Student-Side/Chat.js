@@ -51,24 +51,30 @@ export default function Chat({ assignmentId, selectedNum, selectedAnswer, select
             1. You may provide ONE hint—no more.
 
             Sometimes, provide fill-in-the-blank or multiple-choice questions to guide the student. When you want to ask a multiple-choice question, format your response as JSON with the following structure:
+            \`\`\`json
             {
                 "type": "mcq",
                 "question": "Your guiding question here",
                 "choices": ["Choice 1", "Choice 2", "Choice 3", "Choice 4"]
             }
+            \`\`\`
 
             For fill-in-the-blank questions:
+            \`\`\`json
             {
               "type": "fillblank",
               "question": "Complete this statement: The process of photosynthesis converts sunlight into _______.",
               "answer": "energy"
             }
+            \`\`\`
 
             For regular responses, use:
+            \`\`\`json
             {
                 "type": "text",
                 "content": "Your regular response here"
             }
+            \`\`\`
 
             Case 3: The student works with you to achieve the correct answer, but hasn't come too close to the real answer yet..
             1. Keep asking the user questions until they get almost near the correct answer.
