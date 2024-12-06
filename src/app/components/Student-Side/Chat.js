@@ -7,10 +7,8 @@ import UpArrow from 'public/up-arrow.svg';
 import MCQCard from './MCQCard';
 import FillBlankCard from './FillBlankCard';
 import ProgressBar from './ProgressBar';
-import MicIcon from 'public/mic-icon.svg';
 import MicActiveIcon from 'public/mic-active.svg';
 import Image from 'next/image'
-import RecGif from 'public/rec.gif';
 import ActiveMic from 'public/activemic.gif'
 
 // Custom alert component
@@ -24,7 +22,7 @@ const CustomAlert = ({ message, onClose }) => (
     </div>
 );
 
-export default function Chat({ assignmentId, selectedNum, selectedAnswer, selectedQuestion, chat, setChat, systemPrompt, setSystemPrompt, saved, setSaved, isCorrect, setIsCorrect }) {
+export default function Chat({ assignmentId, selectedNum, selectedAnswer, selectedQuestion, chat, setChat, systemPrompt, setSystemPrompt, saved, setSaved, isCorrect, setIsCorrect, isCorrectArray, setIsCorrectArray }) {
     const [userInput, setUserInput] = useState(''); 
     const [loading, setLoading] = useState(false);
     // const [isCorrect, setIsCorrect] = useState(false);
@@ -181,6 +179,17 @@ export default function Chat({ assignmentId, selectedNum, selectedAnswer, select
     // useEffect(() => {
     // //   setSaved(false);
     // },[chat])
+
+
+    useEffect(() => {
+        if (isCorrect) {
+            setIsCorrectArray((prev) => {
+                const newArray = [...prev];
+                newArray[selectedNum-1] = true; // Update correctness for the current question
+                return newArray;
+            });
+        }
+    }, [isCorrect, selectedNum]);
 
     // suggestion bubbles
     const suggestions = ["Can you give an example?", "Can you explain in a different way?", "I'm not sure", "Multiple choice question", "Fill in the blank question"];
@@ -355,15 +364,15 @@ export default function Chat({ assignmentId, selectedNum, selectedAnswer, select
                     <button className={`${userInput.trim() ? 'bg-[#1F8FBF]' : 'bg-[#CDCDCD]'}  hover:bg-[#1F8FBF] rounded-[6px] w-[10%] px-5 py-3 text-white flex justify-center`} onClick={handleSendMessage} disabled={loading} type="submit">
                       <UpArrow/>
                     </button>
-                    <button className={` ${(isCorrect || saved ) && chat.length > 0 ? 'bg-[#79d38d] hover:bg-[#79d38d]' : 'bg-[#CDCDCD] hover:bg-[#1F8FBF]'} rounded-[12px] w-[10%] px-5 py-3 text-white`} onClick={handleSaveChat} disabled={loading} type="submit">Submit</button>
                     <button 
                         onClick={handleRecord}
-                        className={`relative rounded-[12px] w-[10%] px-5 py-3 text-white flex justify-center items-center
+                        className={`relative rounded-[6px] w-[10%] px-5 py-3 text-white flex justify-center items-center
                             ${isRecording ? 'bg-transparent border hover:border-[#1F8FBF]' : 'bg-[#1F8FBF] hover:bg-[#58B6DF]'}`}
                         type="button"
                     >
                         {isRecording ? <Image src={ActiveMic} alt='' width="10%" height="10%" className="object-cover absolute scale-[0.30]" /> : <MicActiveIcon className="p-0 m-0 fill-white h-[50%] w-[50%] absolute"/>}
                     </button>
+                    {selectedNum === 10 ? <button className={` ${(isCorrect || saved ) && chat.length > 0 ? 'bg-[#79d38d] hover:bg-[#79d38d]' : 'bg-[#CDCDCD] hover:bg-[#1F8FBF]'} rounded-[6px] w-[10%] px-5 py-3 text-white`} onClick={handleSaveChat} disabled={loading} type="submit">Submit</button>: ""}
                   </div>
                 </div>
             </div>

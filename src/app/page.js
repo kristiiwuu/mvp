@@ -8,8 +8,8 @@ export default function LoginPage() {
   const [isLogin, setIsLogin] = useState(true);
   const router = useRouter();
 
-  const handleGenerateHomework = () => {
-    router.push('/pdf-parser');
+  const handleTeacherPortal = () => {
+    router.push('/teacher-portal');
   };
 
   return (
@@ -84,12 +84,11 @@ export default function LoginPage() {
             </div>
           )}
         </form>
-
         <button
-          onClick={handleGenerateHomework}
-          className="mt-4 w-[80%] py-2 text-white bg-[#1F8FBF] hover:bg-[#58B6DF] rounded-[6px] flex justify-center items-center"
+          onClick={handleTeacherPortal}
+          className="mt-4 w-[40%] py-2 text-gray-500 hover:text-[#1F8FBF] hover:underline rounded-[6px] flex justify-center items-center"
         >
-          Try Generating a Homework Assignment
+          Teacher Portal
         </button>
       </div>
     </div>

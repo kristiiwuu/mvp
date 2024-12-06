@@ -54,7 +54,7 @@ export default function PDFUpload() {
   };
 
   return (
-    <div className="p-6 bg-white rounded-lg shadow-custom border-2 border-[#B8B7AF]">
+    <div className="w-[60%] p-6 bg-white rounded-lg shadow-custom border-2 border-[#B8B7AF]">
       <div className="flex flex-col gap-4">
         <input
           type="file"
@@ -67,8 +67,8 @@ export default function PDFUpload() {
           onClick={handleUpload}
           disabled={!file || loading}
           className={`${
-            !file || loading ? "bg-gray-300" : "bg-[#1F8FBF] hover:bg-[#58B6DF]"
-          } text-white px-4 py-2 rounded`}
+            !file || loading ? "bg-gray-300 rounded-[6px]"  : "bg-[#1F8FBF] hover:bg-[#58B6DF]"
+          } text-white px-4 py-2 rounded-[6px]`}
         >
           {loading ? "Processing..." : "Generate Questions"}
         </button>
