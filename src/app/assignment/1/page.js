@@ -95,6 +95,7 @@ export default function Assignment1() {
           saved={saved}
           setSaved={setSaved}
           isCorrect = {isCorrect}
+          isCorrectArray={isCorrectArray}
           setIsCorrect={setIsCorrect}
         />
       </div>

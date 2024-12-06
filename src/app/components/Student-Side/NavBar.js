@@ -13,7 +13,6 @@ export default function NavBar({handleClick, selectedNum, isCorrectArray, starte
                     isCorrect={isCorrectArray[index]}
                     isStarted={startedArray[index]}
                 />
-                
             ))}
         </div>
     );
