@@ -1,10 +1,16 @@
 "use client"
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { login, signup } from "../app/login/actions";
 import BlueDuey from 'public/blue-duey.svg';
 
 export default function LoginPage() {
   const [isLogin, setIsLogin] = useState(true);
+  const router = useRouter();
+
+  const handleGenerateHomework = () => {
+    router.push('/pdf-parser');
+  };
 
   return (
     <div className="font-figtree h-screen bg-[#F8F7F4] pt-[5%] pb-[5%] flex text-black justify-center items-center">
@@ -78,6 +84,13 @@ export default function LoginPage() {
             </div>
           )}
         </form>
+
+        <button
+          onClick={handleGenerateHomework}
+          className="mt-4 w-[80%] py-2 text-white bg-[#1F8FBF] hover:bg-[#58B6DF] rounded-[6px] flex justify-center items-center"
+        >
+          Try Generating a Homework Assignment
+        </button>
       </div>
     </div>
   );
