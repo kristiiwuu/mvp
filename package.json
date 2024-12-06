@@ -9,6 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@langchain/community": "^0.3.17",
+    "@langchain/core": "^0.3.22",
+    "@langchain/openai": "^0.3.14",
     "@supabase/ssr": "^0.5.2",
     "@supabase/supabase-js": "^2.46.1",
     "@types/pdfjs-dist": "^2.10.378",
@@ -17,14 +20,16 @@
     "clsx": "^2.1.1",
     "google-one-tap": "^1.0.6",
     "googleapis": "^144.0.0",
+    "langchain": "^0.3.6",
     "lucide-react": "^0.454.0",
     "next": "^15.0.1",
-    "openai": "^4.70.2",
+    "openai": "^4.76.0",
     "pdf-parse": "^1.1.1",
     "pdfjs-dist": "^4.8.69",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "tailwind-merge": "^2.5.5"
+    "tailwind-merge": "^2.5.5",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@svgr/webpack": "^8.1.0",
