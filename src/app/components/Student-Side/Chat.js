@@ -94,6 +94,7 @@ export default function Chat({ assignmentId, selectedNum, selectedAnswer, select
         setChat([]);
     }, [selectedNum, selectedQuestion]); 
 
+
     // Auto-scroll
     useEffect(() => {
       scrollToLastChat();
