@@ -9,30 +9,31 @@ export default function Assignment1() {
   const title = "Symbiosis HW";
 
   const questions = {
-    1: "What does symbiosis mean in your own words? How is it different from other ways animals and plants interact?",
-    2: "What is mutualism? How does the goby fish and snapping shrimp partnership show mutualism?",
-    3: "What is commensalism?",
-    4: "How is parasitism different from mutualism and commensalism? How does the African oxpecker act like both a helper and a parasite?",
-    5: "What do mitochondria do inside our cells? What might happen to living things if cells didn’t have mitochondria?",
-    6: "Corals and algae work together to help each other. What happens to coral reefs during coral bleaching, and why does it hurt this partnership?",
-    7: "How do cleaner fish help bigger fish? What do cleaner fish do to make sure they aren’t eaten by their clients?",
-    8: "Why is symbiosis like teamwork in nature? How do ants and fungi work together to survive?",
-    9: "How do bees and orchids help each other? What might happen to orchids if there were no bees?",
-    10: "How can changes in the environment, like pollution or warming oceans, affect partnerships like the one between coral and algae?"
+    1: "What does symbiosis mean?",
+    2: "How does the goby fish and snapping shrimp partnership demonstrate mutualism?",
+    3: "How would you define commensalism?",
+    4: "How is parasitism different from mutualism?",
+    5: "What is the function of mitochondria in our cells?",
+    6: "What happens to coral reefs during coral bleaching, and why does it harm the partnership between corals and algae?",
+    7: "How do cleaner fish assist bigger fish?",
+    8: "What do cleaner fish do to avoid being eaten by their clients?",
+    9: "How do ants and fungi collaborate to survive?",
+    10: "How do bees and orchids benefit each other?"
   };
+  
 
   const answers = {
-    1: "Symbiosis is a relationship between two different species where they live together and interact in a way that benefits at least one of them, and often both. This is different from other interactions like predation, where one species benefits at the expense of another, or competition, where species fight for resources.",
-    2: "Mutualism is a type of symbiotic relationship where both species involved benefit from the interaction. In mutualism, both organisms gain something that helps them survive or thrive. The partnership between the goby fish and snapping shrimp is a great example of mutualism. The shrimp digs and maintains a burrow for both of them, providing safety, while the goby fish keeps watch for predators. Both species benefit— the shrimp gets protection and the fish gets a safe place to live.",
-    3: "Commensalism is a type of relationship between two species where one species benefits, and the other is neither helped nor harmed. In this interaction, one organism gains something like food or shelter, while the other doesn't experience any significant effect.",
-    4: "How is parasitism different from mutualism and commensalism? How does the African oxpecker act like both a helper and a parasite?",
-    5: "What do mitochondria do inside our cells? What might happen to living things if cells didn’t have mitochondria?",
-    6: "Corals and algae work together to help each other. What happens to coral reefs during coral bleaching, and why does it hurt this partnership?",
-    7: "How do cleaner fish help bigger fish? What do cleaner fish do to make sure they aren’t eaten by their clients?",
-    8: "Why is symbiosis like teamwork in nature? How do ants and fungi work together to survive?",
-    9: "How do bees and orchids help each other? What might happen to orchids if there were no bees?",
-    10: "How can changes in the environment, like pollution or warming oceans, affect partnerships like the one between coral and algae?"
-  };
+    1: "Symbiosis is a relationship between two different species where they interact closely, often with one or both species benefiting. Examples include mutualism, commensalism, and parasitism.",
+    2: "The goby fish and snapping shrimp demonstrate mutualism because the shrimp builds and maintains a burrow for both of them, providing shelter, while the goby acts as a lookout for predators, ensuring safety for both.",
+    3: "Commensalism is a relationship where one species benefits while the other is neither helped nor harmed, such as barnacles attaching to whales for transportation without affecting the whale.",
+    4: "Parasitism is different from mutualism because in parasitism, one organism benefits at the expense of the other, while in mutualism, both organisms benefit from the interaction.",
+    5: "Mitochondria are the 'powerhouses' of the cell, converting nutrients into energy through a process called cellular respiration, which fuels cellular activities.",
+    6: "During coral bleaching, corals expel the algae living in their tissues due to stress from environmental changes like warmer water temperatures. This harms the partnership because corals lose their primary source of energy, and the algae lose their shelter.",
+    7: "Cleaner fish assist bigger fish by eating parasites and dead skin from their bodies, providing a cleaning service that benefits both. To avoid being eaten, cleaner fish often signal their role with specific behaviors or patterns that bigger fish recognize.",
+    8: "Cleaner fish avoid being eaten by performing a 'dance' or adopting specific behaviors that signal to their clients that they are there to clean, not to harm, which establishes trust in the relationship.",
+    9: "Ants and fungi collaborate by ants providing fungi with plant material to grow, and in return, the fungi produce food that nourishes the ants. This mutualistic relationship helps both species thrive.",
+    10: "Bees and orchids benefit each other through pollination; bees transfer pollen as they collect nectar, enabling orchids to reproduce, while the bees gain food. Without bees, orchids would struggle to reproduce and might decline."
+  };  
 
   const [selectedNum, setSelectedNum] = useState(1);
   const [selectedQuestion, setSelectedQuestion] = useState(questions[1]);
